@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "_version": "20.1.0",
+
+  "compilerOptions": {
+    // Treat files as modules even if it doesn't use import/export
+		"moduleDetection": "force",
+
+		// We use CommonJS because the generated code is always CommonJS
+		"module": "Preserve",
+
+    // Use ES3 for maximum compatibility
+    "target": "ES2023",
+
+		// Allow JS files to be imported from TS and vice versa
+		"allowJs": true,
+
+		// Use correct ESM import behavior
+		"esModuleInterop": true,
+
+		// Disallow features that require cross-file awareness
+		"isolatedModules": true,
+
+    // Force type imports to be explicit
+    //"verbatimModuleSyntax": true,
+
+    // Skip type checking of declaration files
+    "skipLibCheck": true,
+
+    // Generate declaration files
+    "declaration": true,
+    "outDir": "dist",
+  },
+  "include": ["src/**/*.ts", "src/types/nlp.ts.tx"],
+}

@@ -1,0 +1,54 @@
+{
+  "name": "@aristech-org/tts-client",
+  "version": "1.0.0",
+  "description": "A Node.js client library for the Aristech Text-to-Speech API",
+  "main": "dist/index.js",
+  "type": "module",
+  "types": "dist/index.d.ts",
+  "typings": "dist/index.d.ts",
+  "scripts": {
+    "test": "tsx --test",
+    "start": "tsx watch src/index.ts",
+    "build": "tsc -p .",
+    "generate": "mkdir -p src/generated && ./proto2Typescript.sh",
+    "type-check": "tsc --noEmit",
+    "prepare": "simple-git-hooks"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "npm run --prefix node type-check"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aristech-de/tts-clients.git"
+  },
+  "keywords": [
+    "text-to-speech",
+    "real-time",
+    "streaming",
+    "client-library"
+  ],
+  "author": "Martin Mende",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/aristech-de/tts-clients/issues"
+  },
+  "homepage": "https://github.com/aristech-de/tts-clients#readme",
+  "devDependencies": {
+    "@types/node": "22.7.8",
+    "dotenv": "^16.4.5",
+    "simple-git-hooks": "^2.11.1",
+    "ts-proto": "^2.2.4",
+    "tsx": "^4.19.1",
+    "typescript": "^5.6.3"
+  },
+  "dependencies": {
+    "@bufbuild/protobuf": "^2.2.0",
+    "@grpc/grpc-js": "^1.12.2"
+  },
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": "./dist/index.js"
+  }
+}

@@ -1,0 +1,120 @@
+//
+// Speech API protocol buffer description
+// (C) Copyright Aristech GmbH. All Rights reserved.
+// v2.1.3
+//
+
+syntax = "proto3";
+package aristech.tts;
+
+option java_package = "de.aristech.tts.serialize";
+option java_outer_classname = "SpeechServiceTypesProto";
+option java_multiple_files = true;
+option objc_class_prefix = "SST";
+
+// Further options for a `SpeechRequest`.
+message SpeechRequestOption {
+  // The `voiceId` from `Voice` to use as wrapping voice to synthesize text.
+  // Note: The `voiceId` can also be swapped within the text by using ssml's
+  // `<voice/>` tag with another `voiceId`.
+  string voice_id = 1;
+  // Further options that specify the generated audio.
+  SpeechAudioFormat audio = 2;
+  // If the text should be normalized before being transformed into audio or
+  // not.
+  bool normalize = 3;
+  // If the server should fetch audio from cache or save the audio to cache if
+  // enabled.
+  bool cache = 4;
+}
+
+// `SpeechRequestOptionAudioFormat` specifies the retured audio format for a
+// `getSpeech` request.
+message SpeechAudioFormat {
+  // Indicates the container of the audio.
+  enum Container {
+    // wav
+    WAV = 0;
+    // raw
+    RAW = 1;
+    // flac
+    FLAC = 2;
+    // ogg
+    OGG = 3;
+    // mp3
+    MP3 = 4;
+    // speex
+    SPEEX = 5;
+  }
+
+  // Indicates the codec of the audio.
+  enum Codec {
+    // pcm a.k.a. signed-integer
+    PCM = 0;
+    // mu-law
+    MU_LAW = 1;
+    // a-law
+    A_LAW = 2;
+  }
+
+  // The container to use.
+  Container container = 1;
+  // The encoding of the audio.
+  Codec codec = 2;
+  // The samplerate of the audio.
+  int32 samplerate = 3;
+  // The bitrate of the audio.
+  int32 bitrate = 4;
+  // The channels count of the audio.
+  int32 channels = 5;
+}
+
+// Represents a languages locale.
+message SpeechLocale {
+  // Example locale: de_DE
+  string language = 1;      // ex.: de
+  string accent = 2;        // ex.: DE
+  string language_name = 3; // ex.: Deutsch
+  string accent_name = 4;   // ex.: Deutschland
+}
+
+// holds some default config values of a voice
+message VoiceDefaults {
+  string rate = 1;
+  string pitch = 2;
+}
+
+// Contains several infos about a voice
+message Voice {
+  enum Gender {
+    FEMALE = 0;
+    MALE = 1;
+    OTHER = 2;
+  }
+
+  // [Output-only] The voice name.
+  string name = 1;
+  // [Output-only] The audio type of the voice.
+  SpeechAudioFormat audio = 2;
+  // [Output-only] The locale of the voice.
+  SpeechLocale locale = 3;
+  // [Output-only] The gender of the voice.
+  Gender gender = 4;
+  // [Output-only] The voice id.
+  // This is the value to use as `SpeechRequestOption.voice_id`
+  string voice_id = 5;
+  // [Output-only] The uuid of the voice.
+  string uuid = 6;
+  // The version number of the voice
+  string version = 7;
+  // available ports for the voice as configured in the license;
+  int32 ports_available = 8;
+  // whether debug is available for the voice (only with developer license)
+  bool debug_available = 9;
+  // string rate = 10;
+  reserved 10;
+  // string pitch = 11;
+  reserved 11;
+  // default config values
+  VoiceDefaults defaults = 12;
+}

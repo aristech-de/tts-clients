@@ -1,0 +1,146 @@
+//
+// Speech API protocol buffer description
+// (C) Copyright Aristech GmbH. All Rights reserved.
+// v2.1.3
+//
+
+syntax = "proto3";
+import "TTSTypes.proto";
+package aristech.tts;
+
+option java_package = "de.aristech.tts.serialize";
+option java_outer_classname = "SpeechServiceProto";
+option java_multiple_files = true;
+option objc_class_prefix = "SSP";
+
+// Service that implements Aristech Speech-API (TTS-API, ariTTS)
+service SpeechService {
+  // Performs Text-to-Speech with the given SpeechRequest and streams back the
+  // audio as packets of type SpeechResponse.
+  rpc GetSpeech(SpeechRequest) returns (stream SpeechResponse) {}
+
+  // Performs Text-to-Speech and streams back the audio. Adds the capability to
+  // stop the speech synthesis and free a port during synthesis.
+  rpc ControlServer(stream ServerCommand)
+      returns (stream ServerCommandResponse) {}
+
+  // Returns available voices as stream.
+  rpc GetVoiceList(VoiceListRequest) returns (stream Voice) {}
+
+  // Returns the phoneset for a given voice
+  rpc GetPhoneset(PhonesetRequest) returns (PhonesetResponse) {}
+
+  // Returns the transcription for a word for a given voice
+  rpc GetTranscription(TranscriptionRequest) returns (TranscriptionResponse) {}
+}
+
+// Internal Use Only: debug access to engine
+service DebugService {
+  rpc ProcessData(SpeechRequest) returns (stream SpeechResponse) {}
+}
+
+// `SpeechRequest` is the top-level message sent by the client for
+// the `getSpeech` method.
+message SpeechRequest {
+  // Required: The text that will be transformed into audio.
+  string text = 1;
+
+  // Required: Further options for the request.
+  SpeechRequestOption options = 2;
+
+  // Currently not used
+  string parameters = 3;
+
+  // Use "SSML"
+  string input_type = 4;
+
+  // Use "AUDIO"
+  string output_type = 5;
+}
+
+message PhonesetRequest {
+  // Required: The voice of which the phoneset is requested. Only `Voice.name`
+  // has to be filled
+  Voice voice = 1;
+}
+
+message PhonesetResponse {
+  int64 status = 1;
+  string message = 2;
+  // A json array that contains a representation of the phoneset
+  string phoneset = 3;
+}
+
+message TranscriptionRequest {
+  // Required: The voice of which the phoneset is requested. Only `Voice.name`
+  // has to be filled
+  Voice voice = 1;
+
+  // Required: The word to be transcribed
+  string word = 2;
+}
+
+message TranscriptionResponse {
+  int64 status = 1;
+  string message = 2;
+  // The transcription of the submitted word
+  string transcription = 3;
+}
+
+// A command that is sent to the speech engine. START_REQUEST has to encapsulate
+// a SpeechRequest.
+message ServerCommand {
+  CommandType command_type = 1;
+  bytes command_data = 2;
+  SpeechRequest speech_request = 3;
+}
+
+// Commands that can be used in ServerCommand
+enum CommandType {
+  START_REQUEST = 0;
+  STOP_REQUEST = 1;
+  STATUS_REQUEST = 2;
+}
+
+// The server's response to a ServerCommand.
+message ServerCommandResponse {
+  CommandResponseType response_type = 1;
+  int64 status = 2;
+  string message = 3;
+  bytes response_data = 4;
+  repeated SpeechResponse speech_response = 5;
+}
+
+enum CommandResponseType {
+  // Synthesis startet
+  STARTRESPONSE = 0;
+
+  // Synthesis stopped
+  STOPRESPONSE = 1;
+
+  // Response contains status information
+  STATUSRESPONSE = 2;
+
+  // Response contains SpeechResponses
+  SYNTHESISRESPONSE = 3;
+}
+
+// `SpeechResponse` is the top-level message sent by the server for
+// the `getSpeech` and `ProcessData`methods. Possibly multiple `SpeechResponse`
+// messages are sent while the audio is being generated.
+// When the requested output_type is a text type, there will be only one
+// SpeechResponse that contains the whole block.
+// Howevery, output_type AUDIO will return multiple blocks of audio signal
+// that have to be concatenated or streamed to an audio device
+message SpeechResponse {
+  // The audio data bytes encoded as specified in
+  // `SpeechRequestOptionAudioFormat`.
+  int64 status = 1;
+  bytes data = 2;
+  string input_type = 3;
+  string output_type = 4;
+}
+
+// Requests a VoiceListResponse that contains all available voices (with the
+// specified locale)
+message VoiceListRequest { SpeechLocale locale = 1; }
