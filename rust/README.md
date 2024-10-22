@@ -16,16 +16,13 @@ aristech_tts_client = "1.0.0"
 ```rust
 let client = get_client(
   "https://tts.example.com",
-  Some(TlsOptions {
-      ca_certificate: None,
-      auth: Some(Auth { token: "your-token", secret: "your-secret" }),
-  }),
+  Some(TlsOptions { ca_certificate: None, auth: None }),
 ).await?;
 
 let request = SpeechRequest {
   text: "Text to speak.".to_string(),
   options: Some(SpeechRequestOption {
-    voice_id: std::env::var("VOICE_ID").unwrap_or("anne_en_GB".to_string()),
+    voice_id: "anne_en_GB".to_string(),
     ..SpeechRequestOption::default()
   }),
   ..SpeechRequest::default()
