@@ -1,7 +1,7 @@
 use std::error::Error;
 
 fn main() -> Result<(), Box<dyn Error>> {
-    let protos_dir = "../protos";
+    let protos_dir = "./protos";
     let types_proto = format!("{}/TTSTypes.proto", protos_dir);
     let services_proto = format!("{}/TTSServices.proto", protos_dir);
 
@@ -11,6 +11,5 @@ fn main() -> Result<(), Box<dyn Error>> {
 
     println!("cargo:rerun-if-changed={}", types_proto);
     println!("cargo:rerun-if-changed={}", services_proto);
-    println!("cargo:rerun-if-changed={}", protos_dir);
     Ok(())
 }
