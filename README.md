@@ -1,6 +1,6 @@
 # Aristech TTS-Clients
 
-This repsoitory contains the Text-to-Speech client implementations that use [gRPC](https://grpc.io/) and [Protocol Buffers](https://developers.google.com/protocol-buffers/) to communicate with the [Aristech](https://aristech.de) TTS-Server.
+This repository contains the Text-to-Speech client implementations that use [gRPC](https://grpc.io/) and [Protocol Buffers](https://developers.google.com/protocol-buffers/) to communicate with the [Aristech](https://aristech.de) TTS-Server.
 
 Currently, the following clients are available:
 
