@@ -15,7 +15,7 @@ import { TtsClient } from '@aristech-org/tts-client'
 import fs from 'fs'
 
 const client = new TtsClient({ host: 'tts.example.com' })
-const buffer = await client.audioBuffer({
+const buffer = await client.synthesize({
   text: 'Hello, world!',
   options: { voiceId: 'anne_en_GB' },
 })

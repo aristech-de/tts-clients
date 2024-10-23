@@ -110,18 +110,16 @@ export class TtsClient {
 
   /**
    * Creates an audio buffer from the given text.
-   * @param request 
-   * @returns 
+   * @param request The request object
+   * @returns The audio buffer
    */
-  audioBuffer(request: DeepPartial<SpeechRequest>): Promise<Buffer> {
+  synthesize(request: DeepPartial<SpeechRequest>): Promise<Buffer> {
     return new Promise<Buffer>(async (res, rej) => {
       const [stream, voice] = await this.streamAudio(request)
       const rawChunks: Buffer[] = []
       stream.on('data', (msg: SpeechResponse) => {
-        // if (msg.outputType === 'AUDIO') {
         const chunk = Buffer.from(msg.data)
         rawChunks.push(chunk)
-        //}
       })
       stream.on('end', () => {
         const audioBuffer = Buffer.concat(rawChunks)
@@ -141,6 +139,13 @@ export class TtsClient {
         rej(err)
       })
     })
+  }
+
+  /**
+   * This is an alias for the `synthesize` method.
+   */
+  audioBuffer(request: DeepPartial<SpeechRequest>): Promise<Buffer> {
+    return this.synthesize(request)
   }
 
   /**

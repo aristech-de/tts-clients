@@ -14,8 +14,8 @@ const client = new TtsClient({
   rootCert: process.env.ROOT_CERT,
   auth,
 })
-const buffer = await client.audioBuffer({
-  text: process.argv[2] || 'Thanks for choosing Aristech. To contact us, dial 0049 6221 438590 or visit aristech.de',
+const buffer = await client.synthesize({
+  text: process.argv[2] || 'Thanks for choosing Aristech. For more information about our products visit us at aristech.de',
   options: {
     voiceId: process.env.VOICE_ID || 'anne_en_GB'
   }
