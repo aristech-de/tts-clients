@@ -52,7 +52,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
         .expect("Failed to start sox play command");
 
     let request = SpeechRequest {
-      text: "Thanks for choosing Aristech. To contact us, dial 0049 6221 438590 or visit us at aristech.de".to_string(),
+      text: "Thanks for choosing Aristech. For more information about our products visit us at aristech.de".to_string(),
       options: Some(SpeechRequestOption {
         voice_id: std::env::var("VOICE_ID").unwrap_or("anne_en_GB".to_string()),
         ..SpeechRequestOption::default()

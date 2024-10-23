@@ -14,21 +14,28 @@ aristech_tts_client = "1.0.0"
 ## Usage
 
 ```rust
-let client = get_client(
-  "https://tts.example.com",
-  Some(TlsOptions { ca_certificate: None, auth: None }),
-).await?;
+use aristech_tts_client::{get_client, synthesize, SpeechRequest, SpeechRequestOption, TlsOptions};
 
-let request = SpeechRequest {
-  text: "Text to speak.".to_string(),
-  options: Some(SpeechRequestOption {
-    voice_id: "anne_en_GB".to_string(),
-    ..SpeechRequestOption::default()
-  }),
-  ..SpeechRequest::default()
-};
-let data = get_audio(&mut client, request).await?;
-std::fs::write("output.wav", data).expect("Unable to write file");
+#[tokio::main]
+async fn main() -> Result<(), Box<dyn std::error::Error>> {
+    let client = get_client(
+        "https://tts.example.com",
+        Some(TlsOptions::default()),
+    ).await?;
+
+    let request = SpeechRequest {
+        text: "Text to speak.".to_string(),
+        options: Some(SpeechRequestOption {
+            voice_id: "anne_en_GB".to_string(),
+          ..SpeechRequestOption::default()
+        }),
+        ..SpeechRequest::default()
+    };
+    let data = synthesize(&mut client, request).await?;
+    std::fs::write("output.wav", data).expect("Unable to write file");
+
+    Ok(())
+}
 ```
 
 There are several examples in the [examples](.) directory:
