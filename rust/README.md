@@ -8,16 +8,17 @@ Add the following to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-aristech_tts_client = "1.0.0"
+aristech_tts_client = "1.0.1"
 ```
 
 ## Usage
 
 ```rust
 use aristech_tts_client::{get_client, synthesize, SpeechRequest, SpeechRequestOption, TlsOptions};
+use std::error::Error;
 
 #[tokio::main]
-async fn main() -> Result<(), Box<dyn std::error::Error>> {
+async fn main() -> Result<(), Box<dyn Error>> {
     let client = get_client(
         "https://tts.example.com",
         Some(TlsOptions::default()),
