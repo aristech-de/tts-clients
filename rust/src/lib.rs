@@ -1,9 +1,9 @@
-//! # Aristech TTS Client
-//! The Aristech TTS Client is a client library for the Aristech TTS server.
+//! # Aristech TTS-Client
+//! The Aristech TTS-Client is a client library for the Aristech TTS-Server.
 
 #![warn(missing_docs)]
 
-/// The tts_services module contains types and functions generated from the Aristech TTS proto file.
+/// The tts_services module contains types and functions generated from the Aristech TTS proto files.
 pub mod tts_services {
     #![allow(missing_docs)]
     tonic::include_proto!("aristech.tts");
