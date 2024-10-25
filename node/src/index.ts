@@ -200,11 +200,11 @@ export class TtsClient {
     const portRe = /[^:]+:([0-9]+)$/
     if (portRe.test(host)) {
       // In case a port was provided but ssl was not specified
-      // ssl is assumed when the port matches 9424
+      // ssl is assumed when the port matches 8424
       const [, portStr] = host.match(portRe)!
       const hostPort = parseInt(portStr, 10)
       if (!sslExplicit) {
-        if (hostPort === 9424) {
+        if (hostPort === 8424) {
           ssl = true
         } else {
           ssl = false
