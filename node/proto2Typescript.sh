@@ -2,8 +2,7 @@
 SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
 WORKSPACE_DIR=$(cd -- "${SCRIPT_DIR}/.." &>/dev/null && pwd)
 
-# This script converts the protocol buffer files to static module and corresponding typescript definitions
-# Directory to write generated code to (.js and .d.ts files)
+# This script converts the protocol buffer files to typescript
 OUT_DIR="$SCRIPT_DIR/src/generated"
 # Directory containing the proto files
 PROTO_DIR="$WORKSPACE_DIR/protos"
