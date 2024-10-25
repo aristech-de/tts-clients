@@ -1,5 +1,8 @@
 # Changelog
 
+## NodeJS v1.0.2 - 2024-10-25
+- Fixed port fallback when ssl and port are not explicitly set.
+
 ## Rust v1.0.1 - 2024-10-23
 - Updated dependencies.
 - Added documentation.
