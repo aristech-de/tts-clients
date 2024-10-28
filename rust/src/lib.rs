@@ -96,7 +96,7 @@ impl TlsOptions {
     }
 }
 
-/// Creates a new `TtsClient` to communicate with the server.
+/// Creates a new [TtsClient] to communicate with the server.
 ///
 /// # Arguments
 /// * `host` - The host to connect to (might include the port number e.g. "https://tts.example.com:8424"). Note that the protocol must be included in the host.

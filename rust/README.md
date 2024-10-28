@@ -4,11 +4,10 @@ This is the Rust client implementation for the Aristech TTS-Server.
 
 ## Installation
 
-Add the following to your `Cargo.toml`:
+To use the client in your project, add it to your `Cargo.toml` or use `cargo` to add it:
 
-```toml
-[dependencies]
-aristech_tts_client = "1.0.1"
+```sh
+cargo add aristech-tts-client
 ```
 
 ## Usage
