@@ -1,5 +1,9 @@
 # Changelog
 
+## Rust v1.0.2 - 2024-10-28
+- Switched from tonic tls-roots to tls-native-roots because tls-roots is deprecated.
+
+
 ## NodeJS v1.0.2 - 2024-10-25
 - Fixed port fallback when ssl and port are not explicitly set.
 
