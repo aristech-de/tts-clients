@@ -6,5 +6,6 @@ Currently, the following clients are available:
 
 - [NodeJS](node/README.md)
 - [Rust](rust/README.md)
+- [Python](python/README.md)
 
 In order to use the clients, you need to have access to an Aristech TTS-Server. To get credentials for testing, please contact us at [speech@aristech.de](mailto:speech@aristech.de).

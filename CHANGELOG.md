@@ -1,5 +1,9 @@
 # Changelog
 
+## Python v1.0.0
+- Initial release of the Aristech TTS-Client for Python.
+
+
 ## Rust v1.0.2 - 2024-10-28
 - Switched from tonic tls-roots to tls-native-roots because tls-roots is deprecated.
 

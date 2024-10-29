@@ -1,5 +1,9 @@
 {
   "rust-analyzer.linkedProjects": [
     "rust/Cargo.toml"
-  ]
+  ],
+  "python.defaultInterpreterPath": "python/venv/bin/python",
+  "python.analysis.extraPaths": [
+    "python/src"
+  ],
 }
