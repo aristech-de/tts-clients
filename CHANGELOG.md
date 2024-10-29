@@ -1,6 +1,9 @@
 # Changelog
 
-## Python v1.0.0
+## Python v1.0.1 - 2024-10-29
+- Improved readme.
+
+## Python v1.0.0 - 2024-10-29
 - Initial release of the Aristech TTS-Client for Python.
 
 
