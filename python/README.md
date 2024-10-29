@@ -11,11 +11,17 @@ pip install aristech-tts-client
 ## Usage
 
 ```python
-from aristech_tts_client import TtsClient
+from aristech_tts_client import TtsClient, SpeechRequest, SpeechRequestOption
 
 client = TtsClient(host='tts.example.com')
-results = client.recognize_file("path/to/audio/file.wav", RecognitionConfig(specification=RecognitionSpec(model="some-model")))
-print('\n'.join([r.chunks[0].alternatives[0].text for r in results]))
+data = client.synthesize(SpeechRequest(
+    text='Hello, world!',
+    options=SpeechRequestOption(
+      voice_id='some-voice-id'
+    )
+))
+with open('output.wav', 'wb') as f:
+    f.write(data)
 ```
 
 There are several examples in the [examples](.) directory:
