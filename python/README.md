@@ -26,11 +26,11 @@ with open('output.wav', 'wb') as f:
 
 There are several examples in the [examples](.) directory:
 
-- [file.py](./examples/file.py): Pretty much the same as the example above.
-- [streaming.py](./examples/streaming.py): Demonstrates how to stream audio to a sox process which plays the audio as it is being streamed.
-- [voices.py](./examples/voices.py): Demonstrates how to get the available voices from the server.
-- [phoneset.py](examples/phoneset.py): Demonstrates how to get the phoneset for a voice.
-- [transcribe.py](examples/transcribe.py): Demonstrates how to get how a voice would pronounce a given word.
+- [file.py](https://github.com/aristech-de/tts-clients/blob/main/python/examples/file.py): Pretty much the same as the example above.
+- [streaming.py](https://github.com/aristech-de/tts-clients/blob/main/python/examples/streaming.py): Demonstrates how to stream audio to a sox process which plays the audio as it is being streamed.
+- [voices.py](https://github.com/aristech-de/tts-clients/blob/main/python/examples/voices.py): Demonstrates how to get the available voices from the server.
+- [phoneset.py](https://github.com/aristech-de/tts-clients/blob/main/python/examples/phoneset.py): Demonstrates how to get the phoneset for a voice.
+- [transcribe.py](https://github.com/aristech-de/tts-clients/blob/main/python/examples/transcribe.py): Demonstrates how to get how a voice would pronounce a given word.
 
 You can run the examples directly using `python` like this:
 
