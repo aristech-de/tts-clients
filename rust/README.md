@@ -51,14 +51,16 @@ You can run the examples directly using `cargo` like this:
 1. Create a `.env` file in the [rust](.) directory:
 
 ```sh
-HOST=https://tts.example.com # Note: The protocol is required in the rust client
+HOST=tts.example.com
 # The credentials are optional but probably required for most servers:
 TOKEN=your-token
 SECRET=your-secret
 
 # The following are optional:
 # ROOT_CERT=your-root-cert.pem # If the server uses a self-signed certificate
-# SSL=true # Set to true if credentials are provided or if a ROOT_CERT is provided
+# If neither credentials nor an explicit root certificate are provided,
+# you can still enable SSL by setting the SSL environment variable to true:
+# SSL=true
 # VOICE_ID=some-available-voice-id
 ```
 

@@ -105,6 +105,16 @@ pub async fn get_client(
     host: String,
     tls_options: Option<TlsOptions>,
 ) -> Result<TtsClient, Box<dyn Error>> {
+    // Check if a schema is included in the host
+    // otherwise add http if no tls options are given and https otherwise
+    let host = if host.starts_with("http://") || host.starts_with("https://") {
+        host
+    } else {
+        match tls_options {
+            Some(_) => format!("https://{}", host),
+            None => format!("http://{}", host),
+        }
+    };
     match tls_options {
         Some(tls_options) => {
             let tls = match tls_options.ca_certificate {
@@ -112,7 +122,7 @@ pub async fn get_client(
                     let ca_certificate = Certificate::from_pem(ca_certificate);
                     ClientTlsConfig::new().ca_certificate(ca_certificate)
                 }
-                None => ClientTlsConfig::new(),
+                None => ClientTlsConfig::with_native_roots(ClientTlsConfig::new()),
             };
             let channel = Channel::from_shared(host)?
                 .tls_config(tls)?

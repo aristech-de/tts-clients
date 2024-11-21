@@ -1,5 +1,10 @@
 # Changelog
 
+## Rust v1.0.3 - 2024-11-21
+- Fixed a bug where native roots were not being used correctly.
+- The get_client function now automatically adds a schema if it is missing from the host based on the tls options.
+
+
 ## Python v1.0.1 - 2024-10-29
 - Improved readme.
 
