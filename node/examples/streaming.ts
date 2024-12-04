@@ -3,7 +3,8 @@
  */
 import 'dotenv/config'
 
-import { TtsClient } from '@aristech-org/tts-client'
+import { SpeechResponse, TtsClient } from '@aristech-org/tts-client'
+
 import { spawn } from 'child_process'
 
 const auth = process.env.TOKEN && process.env.SECRET ? { token: process.env.TOKEN, secret: process.env.SECRET } : undefined
@@ -27,7 +28,7 @@ const bitsPerSample = voice.audio?.bitrate || 16
 const channels = voice.audio?.channels || 1
 const sox = spawn('play', ['-t', 'raw', '-r', sampleRate.toString(), '-b', bitsPerSample.toString(), '-c', channels.toString(), '-e', 'signed-integer', '-'])
 
-stream.on('data', (msg) => {
+stream.on('data', (msg: SpeechResponse) => {
   sox.stdin.write(Buffer.from(msg.data))
 })
 stream.on('end', () => {

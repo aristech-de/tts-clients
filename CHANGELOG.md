@@ -4,6 +4,8 @@
 - Bumped dependencies.
 ## NodeJS v1.0.3 - 2024-12-04
 - Bumped dependencies.
+## NodeJS v1.0.4 - 2024-12-04
+- Exporting several protobuf types for better type checking.
 
 ## Rust v1.0.3 - 2024-11-21
 - Fixed a bug where native roots were not being used correctly.

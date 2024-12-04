@@ -6,6 +6,7 @@ import { PhonesetRequest, PhonesetResponse, SpeechRequest, SpeechResponse, Speec
 import fs from 'fs'
 
 export * from './generated/TTSTypes.js'
+export { PhonesetRequest, PhonesetResponse, SpeechRequest, SpeechResponse, SpeechServiceClient, TranscriptionRequest, TranscriptionResponse, VoiceListRequest } from './generated/TTSServices.js'
 
 export type Stream = grpc.ClientReadableStream<SpeechResponse>
 
