@@ -1,7 +1,7 @@
 [package]
 name = "aristech-tts-client"
 description = "A Rust client library for the Aristech Text-to-Speech API"
-version = "1.0.4"
+version = "1.0.5"
 edition = "2021"
 repository = "https://github.com/aristech-de/tts-clients"
 keywords = ["text-to-speech", "real-time", "streaming", "client-library"]
@@ -13,11 +13,11 @@ categories = ["api-bindings", "multimedia::audio"]
 [dependencies]
 tonic = { version = "0.12.3", features = ["tls", "tls-native-roots", "gzip"] }
 tokio = { version = "1.42.0", features = ["macros", "rt-multi-thread"] }
-tokio-stream = "0.1"
-prost = "0.13.3"
-prost-types = "0.13.3"
-hound = "3.5.0"
-cpal = "0.15.0"
+tokio-stream = "0.1.17"
+prost = "0.13.4"
+prost-types = "0.13.4"
+hound = "3.5.1"
+cpal = "0.15.3"
 
 [dev-dependencies]
 dotenv = "0.15.0"
