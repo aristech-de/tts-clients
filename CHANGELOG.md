@@ -1,14 +1,15 @@
 # Changelog
 
+## NodeJS v1.0.5 - 2025-01-07
 ## Rust v1.0.5 - 2025-01-07
 - Bumped dependencies.
 
 ## Rust v1.0.4 - 2024-12-04
 - Bumped dependencies.
-## NodeJS v1.0.3 - 2024-12-04
-- Bumped dependencies.
 ## NodeJS v1.0.4 - 2024-12-04
 - Exporting several protobuf types for better type checking.
+## NodeJS v1.0.3 - 2024-12-04
+- Bumped dependencies.
 
 ## Rust v1.0.3 - 2024-11-21
 - Fixed a bug where native roots were not being used correctly.
