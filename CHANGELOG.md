@@ -1,5 +1,11 @@
 # Changelog
 
+## NodeJS v1.0.6 - 2025-02-03
+- Bumped dependencies.
+## Rust v1.0.6 - 2025-02-03
+- Bumped dependencies.
+- Removed unnecessary dependency.
+
 ## NodeJS v1.0.5 - 2025-01-07
 ## Rust v1.0.5 - 2025-01-07
 - Bumped dependencies.
