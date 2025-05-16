@@ -2,8 +2,11 @@
 
 ## NodeJS v1.0.8 - 2025-05-16
 - Bumped dependencies.
+## Rust v1.0.8 - 2025-05-16
+- Bumped dependencies.
 
 ## NodeJS v1.0.7 - 2025-03-14
+- Bumped dependencies.
 ## Rust v1.0.7 - 2025-03-14
 - Bumped dependencies.
 
@@ -14,6 +17,7 @@
 - Removed unnecessary dependency.
 
 ## NodeJS v1.0.5 - 2025-01-07
+- Bumped dependencies.
 ## Rust v1.0.5 - 2025-01-07
 - Bumped dependencies.
 
