@@ -7,7 +7,11 @@ name = "aristech-tts-client"
 version = "1.0.1"
 description = "A Python client library for the Aristech Text-to-Speech API"
 authors = [{ name = "Martin Mende", email = "speech@aristech.de" }]
-dependencies = ["grpcio", "protobuf"]
+dependencies = [
+  "grpcio>=1.71.0,<2.0.0",
+  # grpcio-tools still requires protobuf < 6.0.0
+  "protobuf>=5.26.1,<7.0.0",
+]
 readme = "README.md"
 classifiers = [
   "Programming Language :: Python :: 3",
@@ -17,7 +21,11 @@ classifiers = [
 license = { text = "MIT License" }
 
 [project.optional-dependencies]
-dev = ["grpcio-tools", "mypy-protobuf", "python-dotenv"]
+dev = [
+  "grpcio-tools>=1.71.0,<2.0.0",
+  "mypy-protobuf>=3.6.0,<4.0.0",
+  "python-dotenv>=1.1.0,<2.0.0",
+]
 
 [project.urls]
 Homepage = "https://github.com/aristech-de/tts-clients/tree/main/python"
