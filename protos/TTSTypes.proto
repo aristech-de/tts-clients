@@ -33,10 +33,10 @@ message SpeechRequestOption {
 message SpeechAudioFormat {
   // Indicates the container of the audio.
   enum Container {
-    // wav
-    WAV = 0;
     // raw
-    RAW = 1;
+    RAW = 0;
+    // wav
+    WAV = 1;
     // flac
     FLAC = 2;
     // ogg
@@ -63,8 +63,8 @@ message SpeechAudioFormat {
   Codec codec = 2;
   // The samplerate of the audio.
   int32 samplerate = 3;
-  // The bitrate of the audio.
-  int32 bitrate = 4;
+  // Bit depth of the audio (e.g. 16).
+  int32 bit_depth = 4;
   // The channels count of the audio.
   int32 channels = 5;
 }

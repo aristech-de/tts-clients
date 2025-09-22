@@ -5,7 +5,10 @@ use utils::get_tls_options;
 
 use aristech_tts_client::{
     get_client, synthesize,
-    tts_services::{SpeechRequest, SpeechRequestOption},
+    tts_services::{
+        speech_audio_format::{Codec, Container},
+        SpeechAudioFormat, SpeechRequest, SpeechRequestOption,
+    },
 };
 
 #[tokio::main]
@@ -22,9 +25,16 @@ async fn main() -> Result<(), Box<dyn Error>> {
       text: "Thanks for choosing Aristech. For more information about our products visit us at aristech.de".to_string(),
       options: Some(SpeechRequestOption {
         voice_id: std::env::var("VOICE_ID").unwrap_or("anne_en_GB".to_string()),
-        ..SpeechRequestOption::default()
+        audio: Some(
+          SpeechAudioFormat {
+            container: Container::Wav as i32,
+            codec: Codec::Pcm as i32,
+            ..Default::default()
+          }
+        ),
+        ..Default::default()
       }),
-      ..SpeechRequest::default()
+      ..Default::default()
     };
     let data = synthesize(&mut client, request).await?;
     std::fs::write("output.wav", data).expect("Unable to write file");

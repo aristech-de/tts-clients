@@ -15,7 +15,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
 
     let voices = get_voices(&mut client, None).await?;
     for voice in voices {
-        println!("{:?}", voice);
+        println!("{:#?}", voice);
     }
     Ok(())
 }

@@ -5,7 +5,10 @@ use utils::get_tls_options;
 
 use aristech_tts_client::{
     get_client, get_voices,
-    tts_services::{SpeechRequest, SpeechRequestOption},
+    tts_services::{
+        speech_audio_format::{Codec, Container},
+        SpeechAudioFormat, SpeechRequest, SpeechRequestOption,
+    },
 };
 
 #[tokio::main]
@@ -31,7 +34,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
     // Start a sox play command with the correct format
     let voice_audio_spec = voice.audio.unwrap_or_default();
     // Get OSString from the voice audio spec
-    let bytes_per_sample = voice_audio_spec.bitrate.to_string();
+    let bit_depth = voice_audio_spec.bit_depth.to_string();
     let sample_rate = voice_audio_spec.samplerate.to_string();
     let channels = voice_audio_spec.channels.to_string();
     let mut sox = std::process::Command::new("play")
@@ -41,11 +44,12 @@ async fn main() -> Result<(), Box<dyn Error>> {
         .arg("-e")
         .arg("signed-integer")
         .arg("-b")
-        .arg(bytes_per_sample)
+        .arg(bit_depth)
         .arg("-r")
         .arg(sample_rate)
         .arg("-c")
         .arg(channels)
+        .arg("-L") // little endian
         .arg("-")
         .stdin(std::process::Stdio::piped())
         .spawn()
@@ -55,9 +59,14 @@ async fn main() -> Result<(), Box<dyn Error>> {
       text: "Thanks for choosing Aristech. For more information about our products visit us at aristech.de".to_string(),
       options: Some(SpeechRequestOption {
         voice_id: std::env::var("VOICE_ID").unwrap_or("anne_en_GB".to_string()),
-        ..SpeechRequestOption::default()
+        audio: Some(SpeechAudioFormat {
+            container: Container::Raw as i32,
+            codec: Codec::Pcm as i32,
+            ..Default::default()
+        }),
+        ..Default::default()
       }),
-      ..SpeechRequest::default()
+      ..Default::default()
     };
     let mut stream = client.get_speech(request).await?.into_inner();
     let sox_stdin = sox.stdin.as_mut().expect("Failed to open sox stdin");

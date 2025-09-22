@@ -9,7 +9,6 @@ pub mod tts_services {
     tonic::include_proto!("aristech.tts");
 }
 
-use tts_services::speech_audio_format::Container;
 use tts_services::speech_service_client::SpeechServiceClient as TtsServiceClient;
 use tts_services::{
     PhonesetRequest, PhonesetResponse, SpeechRequest, TranscriptionRequest, TranscriptionResponse,
@@ -17,7 +16,6 @@ use tts_services::{
 };
 
 use std::error::Error;
-use std::io::Cursor;
 
 use tonic::codegen::InterceptedService;
 use tonic::service::Interceptor;
@@ -294,13 +292,12 @@ pub async fn synthesize(
     // Get the voice list to check if the voice exists
     // and be able to create a header with the voices audio format
     let voices = get_voices(client, None).await?;
-    let voice = voices
+    // let voice = voices
+    voices
         .iter()
         .find(|voice| voice.voice_id == request.clone().options.unwrap_or_default().voice_id)
         .ok_or("Voice not found")?;
-
     // Start the audio stream
-    let req = request.clone();
     let request = tonic::Request::new(request);
     let response = client.get_speech(request).await?;
     let mut stream = response.into_inner();
@@ -310,39 +307,7 @@ pub async fn synthesize(
         audio.extend_from_slice(&chunk.data);
     }
 
-    // Check which audio format was requested
-    let audio_spec = req.options.unwrap_or_default().audio.unwrap_or_default();
-    match Container::try_from(audio_spec.container)? {
-        Container::Wav => {
-            let voice_audio_spec = voice.audio.unwrap_or_default();
-            // The server streams audio data as it is generated
-            // therefore and because wave headers need to know the size of the audio data
-            // we need to create a wave header and prepend it to the audio data ourselves
-            let spec = hound::WavSpec {
-                channels: voice_audio_spec.channels as u16,
-                sample_rate: voice_audio_spec.samplerate as u32,
-                bits_per_sample: voice_audio_spec.bitrate as u16,
-                sample_format: hound::SampleFormat::Int,
-            };
-            // Create a wave header as vec of bytes
-            let mut wav = Cursor::new(vec![]);
-            let mut writer = hound::WavWriter::new(&mut wav, spec)?;
-            // Write the audio data to the wave
-            for sample in audio.chunks(voice_audio_spec.bitrate as usize / 8) {
-                for i in 0..voice_audio_spec.channels {
-                    writer.write_sample(i16::from_le_bytes([
-                        sample[i as usize * 2],
-                        sample[i as usize * 2 + 1],
-                    ]))?;
-                }
-            }
-            // Get the audio data from writer
-            writer.finalize()?;
-            let audio = wav.into_inner();
-            Ok(audio)
-        }
-        _ => Ok(audio),
-    }
+    Ok(audio)
 }
 
 /// This is just an alias for [synthesize]

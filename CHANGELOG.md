@@ -1,5 +1,11 @@
 # Changelog
 
+## Rust v2.0.0 - 2025-09-22
+- 🔥 **Breaking:** Correctly refering to bytes per sample as `bit_depth` now instead of `bitrate`.
+- The container enum now uses the correct order (as the server expects it) which means raw and wav have been swapped.
+- Removed hound dependency as the API now supports audio conversions natively.
+- Bumped dependencies.
+
 ## NodeJS v1.0.9 - 2025-08-25
 - Bumped dependencies.
 ## Rust v1.0.9 - 2025-08-25
