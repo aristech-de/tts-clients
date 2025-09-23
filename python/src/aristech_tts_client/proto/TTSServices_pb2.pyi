@@ -69,6 +69,34 @@ SYNTHESISRESPONSE: CommandResponseType.ValueType  # 3
 """Response contains SpeechResponses"""
 global___CommandResponseType = CommandResponseType
 
+class _ClearCacheStatus:
+    ValueType = typing.NewType("ValueType", builtins.int)
+    V: typing_extensions.TypeAlias = ValueType
+
+class _ClearCacheStatusEnumTypeWrapper(google.protobuf.internal.enum_type_wrapper._EnumTypeWrapper[_ClearCacheStatus.ValueType], builtins.type):
+    DESCRIPTOR: google.protobuf.descriptor.EnumDescriptor
+    CLEARED_SUCCESSFULLY: _ClearCacheStatus.ValueType  # 0
+    """Cache was cleared successfully."""
+    CACHE_DISABLED: _ClearCacheStatus.ValueType  # 1
+    """The request was received, but caching is not enabled on the server."""
+    VOICE_ID_NOT_FOUND: _ClearCacheStatus.ValueType  # 3
+    """Voice ID provided does not exist"""
+    CLEAR_CACHE_ERROR: _ClearCacheStatus.ValueType  # 2
+    """An error occurred during the operation."""
+
+class ClearCacheStatus(_ClearCacheStatus, metaclass=_ClearCacheStatusEnumTypeWrapper):
+    """Status codes for clearing the cache."""
+
+CLEARED_SUCCESSFULLY: ClearCacheStatus.ValueType  # 0
+"""Cache was cleared successfully."""
+CACHE_DISABLED: ClearCacheStatus.ValueType  # 1
+"""The request was received, but caching is not enabled on the server."""
+VOICE_ID_NOT_FOUND: ClearCacheStatus.ValueType  # 3
+"""Voice ID provided does not exist"""
+CLEAR_CACHE_ERROR: ClearCacheStatus.ValueType  # 2
+"""An error occurred during the operation."""
+global___ClearCacheStatus = ClearCacheStatus
+
 @typing.final
 class SpeechRequest(google.protobuf.message.Message):
     """`SpeechRequest` is the top-level message sent by the client for
@@ -311,3 +339,41 @@ class VoiceListRequest(google.protobuf.message.Message):
     def ClearField(self, field_name: typing.Literal["locale", b"locale"]) -> None: ...
 
 global___VoiceListRequest = VoiceListRequest
+
+@typing.final
+class ClearCacheRequest(google.protobuf.message.Message):
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+    VOICE_ID_FIELD_NUMBER: builtins.int
+    voice_id: builtins.str
+    """If provided, only entries for this voice_id will be cleared.
+    If empty, the entire cache will be cleared.
+    """
+    def __init__(
+        self,
+        *,
+        voice_id: builtins.str = ...,
+    ) -> None: ...
+    def ClearField(self, field_name: typing.Literal["voice_id", b"voice_id"]) -> None: ...
+
+global___ClearCacheRequest = ClearCacheRequest
+
+@typing.final
+class ClearCacheResponse(google.protobuf.message.Message):
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+    STATUS_FIELD_NUMBER: builtins.int
+    DELETED_COUNT_FIELD_NUMBER: builtins.int
+    status: global___ClearCacheStatus.ValueType
+    """The status of the clear cache operation."""
+    deleted_count: builtins.int
+    """The number of entries that were deleted."""
+    def __init__(
+        self,
+        *,
+        status: global___ClearCacheStatus.ValueType = ...,
+        deleted_count: builtins.int = ...,
+    ) -> None: ...
+    def ClearField(self, field_name: typing.Literal["deleted_count", b"deleted_count", "status", b"status"]) -> None: ...
+
+global___ClearCacheResponse = ClearCacheResponse

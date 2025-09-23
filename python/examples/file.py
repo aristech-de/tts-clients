@@ -1,6 +1,6 @@
 import sys
 
-from aristech_tts_client import TtsClient, SpeechRequest, SpeechRequestOption
+from aristech_tts_client import TtsClient, SpeechRequest, SpeechRequestOption, SpeechAudioFormat
 from utils import host, auth_token, auth_secret, root_cert, ssl, voice_id
 
 # Use the first argument or a default text
@@ -10,7 +10,11 @@ client = TtsClient(host=host, ssl=ssl, root_cert=root_cert, auth_token=auth_toke
 data = client.synthesize(SpeechRequest(
     text=text,
     options=SpeechRequestOption(
-        voice_id=voice_id
+        voice_id=voice_id,
+        audio=SpeechAudioFormat(
+            container=SpeechAudioFormat.Container.WAV,
+            codec=SpeechAudioFormat.Codec.PCM
+        )
     )
 ))
 # Write the audio data to a file

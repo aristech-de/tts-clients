@@ -8,7 +8,15 @@ from utils import host, auth_token, auth_secret, root_cert, ssl, voice_id
 text = sys.argv[1] if len(sys.argv) > 1 else "Thanks for choosing Aristech. For more information about our products visit us at aristech.de"
 
 client = TtsClient(host=host, ssl=ssl, root_cert=root_cert, auth_token=auth_token, auth_secret=auth_secret)
-stream, voice = client.stream_audio(SpeechRequest(
+
+# Fetch the voice infos to get the audio format
+voices = client.list_voices()
+voice = next((v for v in voices if v.voice_id == voice_id), None)
+if voice is None:
+    raise ValueError(f"Voice with id {voice_id} not found")
+
+# Start the streaming request
+stream = client.stream_audio(SpeechRequest(
     text=text,
     options=SpeechRequestOption(
         voice_id=voice_id
@@ -18,7 +26,7 @@ stream, voice = client.stream_audio(SpeechRequest(
 # Open a sox player to play the audio stream
 audio = voice.audio
 player = subprocess.Popen([
-    "play", "-t", "raw", "-r", str(audio.samplerate), "-e", "signed", "-b", str(audio.bitrate), "-c", str(audio.channels), "-"],
+    "play", "-t", "raw", "-r", str(audio.samplerate), "-e", "signed", "-b", str(audio.bit_depth), "-c", str(audio.channels), "-"],
     stdin=subprocess.PIPE,
     stdout=subprocess.DEVNULL,
     stderr=subprocess.DEVNULL

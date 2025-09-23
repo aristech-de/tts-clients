@@ -25,7 +25,7 @@ pip install -e .[dev]
 To run the examples while using the local version of the package, run the package with the `PYTHONPATH` environment variable set to the src directory:
 
 ```sh
-PYTHONPATH=src python examples/recognize.py
+PYTHONPATH=src python examples/streaming.py
 ```
 
 ## Generating Python Code from Protobuf

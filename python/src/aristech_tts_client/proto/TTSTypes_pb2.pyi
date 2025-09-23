@@ -75,10 +75,10 @@ class SpeechAudioFormat(google.protobuf.message.Message):
 
     class _ContainerEnumTypeWrapper(google.protobuf.internal.enum_type_wrapper._EnumTypeWrapper[SpeechAudioFormat._Container.ValueType], builtins.type):
         DESCRIPTOR: google.protobuf.descriptor.EnumDescriptor
-        WAV: SpeechAudioFormat._Container.ValueType  # 0
-        """wav"""
-        RAW: SpeechAudioFormat._Container.ValueType  # 1
+        RAW: SpeechAudioFormat._Container.ValueType  # 0
         """raw"""
+        WAV: SpeechAudioFormat._Container.ValueType  # 1
+        """wav"""
         FLAC: SpeechAudioFormat._Container.ValueType  # 2
         """flac"""
         OGG: SpeechAudioFormat._Container.ValueType  # 3
@@ -91,10 +91,10 @@ class SpeechAudioFormat(google.protobuf.message.Message):
     class Container(_Container, metaclass=_ContainerEnumTypeWrapper):
         """Indicates the container of the audio."""
 
-    WAV: SpeechAudioFormat.Container.ValueType  # 0
-    """wav"""
-    RAW: SpeechAudioFormat.Container.ValueType  # 1
+    RAW: SpeechAudioFormat.Container.ValueType  # 0
     """raw"""
+    WAV: SpeechAudioFormat.Container.ValueType  # 1
+    """wav"""
     FLAC: SpeechAudioFormat.Container.ValueType  # 2
     """flac"""
     OGG: SpeechAudioFormat.Container.ValueType  # 3
@@ -130,7 +130,7 @@ class SpeechAudioFormat(google.protobuf.message.Message):
     CONTAINER_FIELD_NUMBER: builtins.int
     CODEC_FIELD_NUMBER: builtins.int
     SAMPLERATE_FIELD_NUMBER: builtins.int
-    BITRATE_FIELD_NUMBER: builtins.int
+    BIT_DEPTH_FIELD_NUMBER: builtins.int
     CHANNELS_FIELD_NUMBER: builtins.int
     container: global___SpeechAudioFormat.Container.ValueType
     """The container to use."""
@@ -138,8 +138,8 @@ class SpeechAudioFormat(google.protobuf.message.Message):
     """The encoding of the audio."""
     samplerate: builtins.int
     """The samplerate of the audio."""
-    bitrate: builtins.int
-    """The bitrate of the audio."""
+    bit_depth: builtins.int
+    """Bit depth of the audio (e.g. 16)."""
     channels: builtins.int
     """The channels count of the audio."""
     def __init__(
@@ -148,10 +148,10 @@ class SpeechAudioFormat(google.protobuf.message.Message):
         container: global___SpeechAudioFormat.Container.ValueType = ...,
         codec: global___SpeechAudioFormat.Codec.ValueType = ...,
         samplerate: builtins.int = ...,
-        bitrate: builtins.int = ...,
+        bit_depth: builtins.int = ...,
         channels: builtins.int = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing.Literal["bitrate", b"bitrate", "channels", b"channels", "codec", b"codec", "container", b"container", "samplerate", b"samplerate"]) -> None: ...
+    def ClearField(self, field_name: typing.Literal["bit_depth", b"bit_depth", "channels", b"channels", "codec", b"codec", "container", b"container", "samplerate", b"samplerate"]) -> None: ...
 
 global___SpeechAudioFormat = SpeechAudioFormat
 

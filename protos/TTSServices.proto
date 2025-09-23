@@ -32,6 +32,9 @@ service SpeechService {
 
   // Returns the transcription for a word for a given voice
   rpc GetTranscription(TranscriptionRequest) returns (TranscriptionResponse) {}
+
+  // Clears the cache of the server, removing all cached audio data.
+  rpc ClearCache(ClearCacheRequest) returns (ClearCacheResponse);
 }
 
 // Internal Use Only: debug access to engine
@@ -144,3 +147,28 @@ message SpeechResponse {
 // Requests a VoiceListResponse that contains all available voices (with the
 // specified locale)
 message VoiceListRequest { SpeechLocale locale = 1; }
+
+// Status codes for clearing the cache.
+enum ClearCacheStatus {
+    // Cache was cleared successfully.
+    CLEARED_SUCCESSFULLY = 0;
+    // The request was received, but caching is not enabled on the server.
+    CACHE_DISABLED = 1;
+    // Voice ID provided does not exist
+    VOICE_ID_NOT_FOUND = 3;
+    // An error occurred during the operation.
+    CLEAR_CACHE_ERROR = 2;
+}
+
+message ClearCacheRequest {
+  // If provided, only entries for this voice_id will be cleared.
+  // If empty, the entire cache will be cleared.
+  string voice_id = 1;
+}
+
+message ClearCacheResponse {
+  // The status of the clear cache operation.
+  ClearCacheStatus status = 1;
+  // The number of entries that were deleted.
+  int32 deleted_count = 3;
+}
