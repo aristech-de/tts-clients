@@ -1,10 +1,14 @@
 # Changelog
 
+## Rust v2.1.0 - 2025-09-23
+- Added clear_cache method to client.
+
 ## NodeJS v2.0.0 - 2025-09-23
 - 🔥 **Breaking:** Correctly refering to bytes per sample as `bitDepth` now instead of `bitrate`.
 - 🔥 **Breaking:** `streamAudio` does only return the stream now and skip the voice check as this is done server side anyway.
 - The container enum now uses the correct order (as the server expects it) which means raw and wav have been swapped.
 - Added clearCache method to client.
+- Bumped dependencies.
 
 ## Python v2.0.0 - 2025-09-23
 - 🔥 **Breaking:** Correctly refering to bytes per sample as `bit_depth` now instead of `bitrate`.

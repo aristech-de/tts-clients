@@ -317,3 +317,29 @@ pub async fn get_audio(
 ) -> Result<Vec<u8>, Box<dyn Error>> {
     synthesize(client, request).await
 }
+
+/// Clears the cache of the server, removing all cached audio data.
+/// # Arguments
+/// * `client` - The client to use to communicate with the server.
+/// * `request` - The request to send to the server. If None is given, the default request will be used.
+/// # Example
+/// ```no_run
+/// use aristech_tts_client::{get_client, TlsOptions, clear_cache};
+/// use std::error::Error;
+/// #[tokio::main]
+/// async fn main() -> Result<(), Box<dyn Error>> {
+///     let mut client = get_client("https://tts.example.com".to_string(), Some(TlsOptions::default())).await?;
+///     let response = clear_cache(&mut client, None).await?;
+///     println!("Cache cleared: {:?}", response);
+///     Ok(())
+/// }
+/// ```
+pub async fn clear_cache(
+    client: &mut TtsClient,
+    request: Option<tts_services::ClearCacheRequest>,
+) -> Result<tts_services::ClearCacheResponse, Box<dyn Error>> {
+    let req = request.unwrap_or(tts_services::ClearCacheRequest::default());
+    let request = tonic::Request::new(req);
+    let response = client.clear_cache(request).await?;
+    Ok(response.into_inner())
+}
