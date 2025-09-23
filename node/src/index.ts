@@ -1,7 +1,7 @@
 import * as grpc from '@grpc/grpc-js'
 
-import { DeepPartial, SpeechAudioFormat_Codec, SpeechAudioFormat_Container, Voice } from './generated/TTSTypes.js'
-import { PhonesetRequest, PhonesetResponse, SpeechRequest, SpeechResponse, SpeechServiceClient, TranscriptionRequest, TranscriptionResponse, VoiceListRequest } from './generated/TTSServices.js'
+import { ClearCacheRequest, ClearCacheResponse, PhonesetRequest, PhonesetResponse, SpeechRequest, SpeechResponse, SpeechServiceClient, TranscriptionRequest, TranscriptionResponse, VoiceListRequest } from './generated/TTSServices.js'
+import { DeepPartial, Voice } from './generated/TTSTypes.js'
 
 import fs from 'fs'
 
@@ -73,39 +73,14 @@ export class TtsClient {
   /**
    * Creates a stream of audio data from the given text.
    * @param request The request object
-   * @returns A tuple containing the stream and the voice used for the audio generation
+   * @returns The response stream
    */
-  streamAudio(request: DeepPartial<SpeechRequest>): Promise<[Stream, Voice]> {
-    return new Promise<[Stream, Voice]>(async (res, rej) => {
+  streamAudio(request: DeepPartial<SpeechRequest>): Promise<Stream> {
+    return new Promise<Stream>(async (res, rej) => {
       const client = this.getClient()
-      const req = SpeechRequest.create({
-        ...request,
-        inputType: 'SSML',
-        outputType: 'AUDIO',
-        options: {
-          ...request.options,
-          audio: {
-            ...request.options?.audio,
-            codec: SpeechAudioFormat_Codec.PCM,
-            container: SpeechAudioFormat_Container.WAV,
-          }
-        }
-      })
-      // Get the voiceId from the request
-      const voiceId = req.options?.voiceId
-      if (!voiceId) {
-        rej(new Error('voiceId is required'))
-        return
-      }
-      // Get the voice audio specs
-      const voices = await this.listVoices()
-      const voice = voices.find((v) => v.voiceId === voiceId)
-      if (!voice) {
-        rej(new Error(`Voice with id "${voiceId}" not found`))
-        return
-      }
+      const req = SpeechRequest.create(request)
       const stream = client.getSpeech(req)
-      res([stream, voice])
+      res(stream)
     })
   }
 
@@ -116,25 +91,14 @@ export class TtsClient {
    */
   synthesize(request: DeepPartial<SpeechRequest>): Promise<Buffer> {
     return new Promise<Buffer>(async (res, rej) => {
-      const [stream, voice] = await this.streamAudio(request)
+      const stream = await this.streamAudio(request)
       const rawChunks: Buffer[] = []
       stream.on('data', (msg: SpeechResponse) => {
         const chunk = Buffer.from(msg.data)
         rawChunks.push(chunk)
       })
       stream.on('end', () => {
-        const audioBuffer = Buffer.concat(rawChunks)
-        const requestedFormat = request?.options?.audio?.container || SpeechAudioFormat_Container.WAV
-        // Wave headers need to be prepended to the audio data
-        // because while generating the audio data, the data length is not known
-        if (requestedFormat === SpeechAudioFormat_Container.WAV) {
-          const sampleRate = voice.audio.samplerate
-          const bitsPerSample = voice.audio.bitrate
-          const header = createWaveHeader(audioBuffer.length, sampleRate, 1, bitsPerSample)
-          res(Buffer.concat([header, audioBuffer]))
-          return
-        }
-        res(audioBuffer)
+        res(Buffer.concat(rawChunks))
       })
       stream.on('error', (err) => {
         rej(err)
@@ -178,6 +142,25 @@ export class TtsClient {
       const client = this.getClient()
       const req = TranscriptionRequest.create(request)
       client.getTranscription(req, (err, response) => {
+        if (err) {
+          rej(err)
+          return
+        }
+        res(response)
+      })
+    })
+  }
+
+  /**
+   * Clears the cache of the server, removing all cached audio data.
+   * @param request The request object
+   * @returns The clear cache response
+   */
+  clearCache(request: DeepPartial<ClearCacheRequest> = {}): Promise<ClearCacheResponse> {
+    return new Promise((res, rej) => {
+      const client = this.getClient()
+      const req = ClearCacheRequest.create(request)
+      client.clearCache(req, (err, response) => {
         if (err) {
           rej(err)
           return
@@ -237,54 +220,5 @@ export class TtsClient {
       }
     }
     return new SpeechServiceClient(host, creds, grpcClientOptions)
-  }
-}
-
-/**
- * A helper function to create a WAV header for the given audio data.
- * @param dataLength The length of the audio data in bytes
- * @param sampleRate Sample rate in Hz
- * @param numChannels Number of channels
- * @param bitsPerSample Bits per sample
- * @returns The WAV header as a buffer
- */
-export function createWaveHeader(
-  dataLength: number,
-  sampleRate: number,
-  numChannels: number,
-  bitsPerSample: number,
-): Buffer {
-  const byteRate = (sampleRate * numChannels * bitsPerSample) / 8
-  const blockAlign = (numChannels * bitsPerSample) / 8
-  const headerSize = 44; // Standard WAV header size
-
-  const buffer = new ArrayBuffer(headerSize)
-  const view = new DataView(buffer)
-
-  // RIFF chunk descriptor
-  writeString(view, 0, "RIFF") // ChunkID
-  view.setUint32(4, 36 + dataLength, true) // ChunkSize = 36 + dataLength
-  writeString(view, 8, "WAVE") // Format
-
-  // "fmt " sub-chunk
-  writeString(view, 12, "fmt ") // Subchunk1ID
-  view.setUint32(16, 16, true) // Subchunk1Size (PCM = 16)
-  view.setUint16(20, 1, true) // AudioFormat (PCM = 1)
-  view.setUint16(22, numChannels, true) // NumChannels (Mono = 1)
-  view.setUint32(24, sampleRate, true) // SampleRate
-  view.setUint32(28, byteRate, true) // ByteRate
-  view.setUint16(32, blockAlign, true) // BlockAlign
-  view.setUint16(34, bitsPerSample, true) // BitsPerSample
-
-  // "data" sub-chunk
-  writeString(view, 36, "data") // Subchunk2ID
-  view.setUint32(40, dataLength, true) // Subchunk2Size = dataLength
-
-  return Buffer.from(buffer)
-}
-
-function writeString(view: DataView, offset: number, str: string) {
-  for (let i = 0; i < str.length; i++) {
-    view.setUint8(offset + i, str.charCodeAt(i))
   }
 }

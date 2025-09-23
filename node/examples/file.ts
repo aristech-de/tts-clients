@@ -3,7 +3,8 @@
  */
 import 'dotenv/config'
 
-import { TtsClient } from '@aristech-org/tts-client'
+import { SpeechAudioFormat_Codec, SpeechAudioFormat_Container, TtsClient } from '@aristech-org/tts-client'
+
 import fs from 'fs'
 
 const auth = process.env.TOKEN && process.env.SECRET ? { token: process.env.TOKEN, secret: process.env.SECRET } : undefined
@@ -17,7 +18,12 @@ const client = new TtsClient({
 const buffer = await client.synthesize({
   text: process.argv[2] || 'Thanks for choosing Aristech. For more information about our products visit us at aristech.de',
   options: {
-    voiceId: process.env.VOICE_ID || 'anne_en_GB'
+    voiceId: process.env.VOICE_ID || 'anne_en_GB',
+    audio: {
+      // The API should add the correct WAV header
+      container: SpeechAudioFormat_Container.WAV,
+      codec: SpeechAudioFormat_Codec.PCM,
+    }
   }
 })
 
