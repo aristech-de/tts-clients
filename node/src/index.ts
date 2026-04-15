@@ -1,12 +1,12 @@
 import * as grpc from '@grpc/grpc-js'
 
-import { ClearCacheRequest, ClearCacheResponse, PhonesetRequest, PhonesetResponse, SpeechRequest, SpeechResponse, SpeechServiceClient, TranscriptionRequest, TranscriptionResponse, VoiceListRequest } from './generated/TTSServices.js'
+import { ClearCacheRequest, ClearCacheResponse, PhonesetRequest, PhonesetResponse, SpeechRequest, SpeechResponse, SpeechServiceClient, SsmlDocumentationRequest, SsmlDocumentationResponse, TranscriptionRequest, TranscriptionResponse, VoiceListRequest } from './generated/TTSServices.js'
 import { DeepPartial, Voice } from './generated/TTSTypes.js'
 
 import fs from 'fs'
 
 export * from './generated/TTSTypes.js'
-export { PhonesetRequest, PhonesetResponse, SpeechRequest, SpeechResponse, SpeechServiceClient, TranscriptionRequest, TranscriptionResponse, VoiceListRequest } from './generated/TTSServices.js'
+export { PhonesetRequest, PhonesetResponse, SpeechRequest, SpeechResponse, SpeechServiceClient, SsmlDocumentationRequest, SsmlDocumentationResponse, TranscriptionRequest, TranscriptionResponse, VoiceListRequest } from './generated/TTSServices.js'
 
 export type Stream = grpc.ClientReadableStream<SpeechResponse>
 
@@ -161,6 +161,25 @@ export class TtsClient {
       const client = this.getClient()
       const req = ClearCacheRequest.create(request)
       client.clearCache(req, (err, response) => {
+        if (err) {
+          rej(err)
+          return
+        }
+        res(response)
+      })
+    })
+  }
+
+  /**
+   * Retrieves SSML documentation for a specific voice.
+   * @param request The request object containing voice_id and optional locale
+   * @returns The SSML documentation response
+   */
+  getSsmlDocumentation(request: DeepPartial<SsmlDocumentationRequest>): Promise<SsmlDocumentationResponse> {
+    return new Promise((res, rej) => {
+      const client = this.getClient()
+      const req = SsmlDocumentationRequest.create(request)
+      client.getSsmlDocumentation(req, (err, response) => {
         if (err) {
           rej(err)
           return

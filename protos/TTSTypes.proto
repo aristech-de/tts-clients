@@ -23,9 +23,42 @@ message SpeechRequestOption {
   // If the text should be normalized before being transformed into audio or
   // not.
   bool normalize = 3;
-  // If the server should fetch audio from cache or save the audio to cache if
-  // enabled.
-  bool cache = 4;
+  reserved 4;
+  reserved "cache";
+  // Which sqrs from the designer should be applied. Deprecated, use sqr_type in NormalizationOptions instead
+  SqrType sqr_type = 5 [deprecated = true];
+  // Options to customize the normalization process.
+  NormalizationOptions normalization_options = 6;
+  // If true, disable cache usage for this request (don't read/write cache).
+  bool disable_cache = 7;
+
+  // Options to customize the normalization process.
+  message NormalizationOptions {
+    // Which sqrs from the tts-designer should be applied. Replaces sqr_type in SpeechRequestOption
+    // takes precedence over sqr_type in SpeechRequestOption
+    SqrType sqr_type = 1;
+    // Whether to keep markdown syntax in the text or remove it during normalization.
+    bool keep_markdown = 2;
+    // If true, the server will attempt to synthesize the full input in a single pass
+    // instead of generating each sentence on its own.
+    // Notes:
+    // - Only supported by backends that support streaming/single-pass style synthesis.
+    // - For long inputs, internal limits may still split text into multiple chunks.
+    optional bool attempt_single_pass_synthesis = 3;
+  }
+}
+
+enum SqrType {
+  // default value to identify clients that didn't set a value
+  UNSET = 0;
+  // don't apply synced sqrs
+  NO_SQRS = 1;
+  // apply only productive sqrs
+  PRODUCTIVE = 2;
+  // apply only non-productive sqrs
+  NON_PRODUCTIVE = 3;
+  // apply all (latest) sqrs
+  ALL = 4;
 }
 
 // `SpeechRequestOptionAudioFormat` specifies the retured audio format for a
@@ -67,29 +100,35 @@ message SpeechAudioFormat {
   int32 bit_depth = 4;
   // The channels count of the audio.
   int32 channels = 5;
+  // The bitrate of the audio (only for compressed formats like mp3, ogg).
+  int32 bitrate = 6;
 }
 
 // Represents a languages locale.
 message SpeechLocale {
   // Example locale: de_DE
-  string language = 1;      // ex.: de
-  string accent = 2;        // ex.: DE
+  string language      = 1; // ex.: de
+  string accent        = 2; // ex.: DE
   string language_name = 3; // ex.: Deutsch
-  string accent_name = 4;   // ex.: Deutschland
+  string accent_name   = 4; // ex.: Deutschland
 }
 
 // holds some default config values of a voice
 message VoiceDefaults {
-  string rate = 1;
-  string pitch = 2;
+  string rate          = 1;
+  string pitch         = 2;
+  bool   default_voice = 3;
+  string volume        = 4;
+  // Whether single-pass synthesis is enabled by default for this voice when the request does not override it.
+  bool attempt_single_pass_synthesis_default = 5;
 }
 
 // Contains several infos about a voice
 message Voice {
   enum Gender {
     FEMALE = 0;
-    MALE = 1;
-    OTHER = 2;
+    MALE   = 1;
+    OTHER  = 2;
   }
 
   // [Output-only] The voice name.
@@ -111,10 +150,40 @@ message Voice {
   int32 ports_available = 8;
   // whether debug is available for the voice (only with developer license)
   bool debug_available = 9;
-  // string rate = 10;
   reserved 10;
-  // string pitch = 11;
   reserved 11;
   // default config values
   VoiceDefaults defaults = 12;
+  // Whether this voice supports request-level single-pass synthesis mode.
+  bool supports_single_pass_synthesis = 13;
+  // SSML capabilities and documentation for this voice.
+  VoiceSsmlProfile ssml_profile = 14;
+}
+
+// Describes a single supported SSML tag and its allowed attributes.
+message SsmlTagInfo {
+  // The tag name, e.g. "break", "prosody", "phoneme".
+  string tag = 1;
+  // The list of allowed attribute names for this tag.
+  repeated string allowed_attributes = 2;
+  // Whether this is a self-closing tag (e.g. <break/>, <audio/>).
+  bool self_closing = 3;
+}
+
+// Per-voice SSML capabilities (lightweight, included in GetVoiceList).
+message VoiceSsmlProfile {
+  // The SSML tags this voice supports, with attribute constraints.
+  repeated SsmlTagInfo supported_tags = 1;
+}
+
+// A human-readable documentation section for a single SSML tag.
+message SsmlDocSection {
+  // The tag this documentation refers to, e.g. "break".
+  string tag = 1;
+  // Display title, e.g. "Pauses with <break>".
+  string title = 2;
+  // Markdown-formatted documentation body.
+  string markdown = 3;
+  // Example SSML snippets demonstrating usage.
+  repeated string examples = 4;
 }
