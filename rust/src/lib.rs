@@ -94,6 +94,18 @@ impl TlsOptions {
     }
 }
 
+/// Walks the error source chain and joins each level with ": ".
+fn error_chain(e: &dyn std::error::Error) -> String {
+    let mut msg = e.to_string();
+    let mut source = e.source();
+    while let Some(cause) = source {
+        msg.push_str(": ");
+        msg.push_str(&cause.to_string());
+        source = cause.source();
+    }
+    msg
+}
+
 /// Creates a new [TtsClient] to communicate with the server.
 ///
 /// # Arguments
@@ -122,16 +134,20 @@ pub async fn get_client(
                 }
                 None => ClientTlsConfig::with_native_roots(ClientTlsConfig::new()),
             };
-            let channel = Channel::from_shared(host)?
+            let channel = Channel::from_shared(host.clone())?
                 .tls_config(tls)?
                 .connect()
-                .await?;
+                .await
+                .map_err(|e| format!("connect to {}: {}", host, error_chain(&e)))?;
             let client: TtsServiceClient<InterceptedService<Channel, AuthInterceptor>> =
                 TtsServiceClient::with_interceptor(channel, AuthInterceptor::new(tls_options.auth));
             Ok(client)
         }
         None => {
-            let channel = Channel::from_shared(host)?.connect().await?;
+            let channel = Channel::from_shared(host.clone())?
+                .connect()
+                .await
+                .map_err(|e| format!("connect to {}: {}", host, error_chain(&e)))?;
             let client: TtsServiceClient<InterceptedService<Channel, AuthInterceptor>> =
                 TtsServiceClient::with_interceptor(channel, AuthInterceptor::new(None));
             Ok(client)

@@ -1,5 +1,14 @@
 # Changelog
 
+## Rust v2.2.0 - 2026-05-29
+- Updated dependencies.
+- `get_client` now walks through potential errors to provide more helpful error messages when the client cannot be created.
+- Switched from dotenv to dotenvy because the former seems to be unmaintained.
+
+## NodeJS v2.1.0 - 2025-09-29
+- Added support for GetSsmlDocumentation.
+- Updated dependencies.
+
 ## Rust v2.1.0 - 2025-09-23
 - Added clear_cache method to client.
 
