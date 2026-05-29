@@ -30,6 +30,7 @@
     // Generate declaration files
     "declaration": true,
     "outDir": "dist",
+    "rootDir": "src",
   },
   "include": ["src/**/*.ts", "src/types/nlp.ts.tx"],
 }
