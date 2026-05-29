@@ -15,14 +15,13 @@ option objc_class_prefix = "SSP";
 
 // Service that implements Aristech Speech-API (TTS-API, ariTTS)
 service SpeechService {
-  // Performs Text-to-Speech with the given SpeechRequest and streams back the
-  // audio as packets of type SpeechResponse.
+  // Performs Text-to-Speech with the given SpeechRequest and streams back the audio as
+  // packets of type SpeechResponse.
   rpc GetSpeech(SpeechRequest) returns (stream SpeechResponse) {}
 
-  // Performs Text-to-Speech and streams back the audio. Adds the capability to
-  // stop the speech synthesis and free a port during synthesis.
-  rpc ControlServer(stream ServerCommand)
-      returns (stream ServerCommandResponse) {}
+  // Performs Text-to-Speech and streams back the audio. Adds the capability to stop
+  // the speech synthesis and free a port during synthesis.
+  rpc ControlServer(stream ServerCommand) returns (stream ServerCommandResponse) {}
 
   // Returns available voices as stream.
   rpc GetVoiceList(VoiceListRequest) returns (stream Voice) {}
@@ -32,9 +31,17 @@ service SpeechService {
 
   // Returns the transcription for a word for a given voice
   rpc GetTranscription(TranscriptionRequest) returns (TranscriptionResponse) {}
+  // adds a clone of voice to server created from a wav-file provided by the request
+  rpc AddVoice(AddVoiceRequest) returns (AddVoiceResponse) {}
+
+  // Returns SSML documentation for a specific voice, filtered to that voice's supported tags.
+  rpc GetSsmlDocumentation(SsmlDocumentationRequest) returns (SsmlDocumentationResponse);
 
   // Clears the cache of the server, removing all cached audio data.
   rpc ClearCache(ClearCacheRequest) returns (ClearCacheResponse);
+
+  // Tests whether the configured cache backend is reachable/usable.
+  rpc TestCacheConnection(TestCacheConnectionRequest) returns (TestCacheConnectionResponse);
 }
 
 // Internal Use Only: debug access to engine
@@ -62,21 +69,19 @@ message SpeechRequest {
 }
 
 message PhonesetRequest {
-  // Required: The voice of which the phoneset is requested. Only `Voice.name`
-  // has to be filled
+  // Required: The voice of which the phoneset is requested. Only `Voice.name` has to be filled
   Voice voice = 1;
 }
 
 message PhonesetResponse {
-  int64 status = 1;
+  int64  status  = 1;
   string message = 2;
   // A json array that contains a representation of the phoneset
   string phoneset = 3;
 }
 
 message TranscriptionRequest {
-  // Required: The voice of which the phoneset is requested. Only `Voice.name`
-  // has to be filled
+  // Required: The voice of which the phoneset is requested. Only `Voice.name` has to be filled
   Voice voice = 1;
 
   // Required: The word to be transcribed
@@ -84,33 +89,32 @@ message TranscriptionRequest {
 }
 
 message TranscriptionResponse {
-  int64 status = 1;
+  int64  status  = 1;
   string message = 2;
   // The transcription of the submitted word
   string transcription = 3;
 }
 
-// A command that is sent to the speech engine. START_REQUEST has to encapsulate
-// a SpeechRequest.
+// A command that is sent to the speech engine. START_REQUEST has to encapsulate a SpeechRequest.
 message ServerCommand {
-  CommandType command_type = 1;
-  bytes command_data = 2;
+  CommandType   command_type   = 1;
+  bytes         command_data   = 2;
   SpeechRequest speech_request = 3;
 }
 
 // Commands that can be used in ServerCommand
 enum CommandType {
-  START_REQUEST = 0;
-  STOP_REQUEST = 1;
+  START_REQUEST  = 0;
+  STOP_REQUEST   = 1;
   STATUS_REQUEST = 2;
 }
 
 // The server's response to a ServerCommand.
 message ServerCommandResponse {
-  CommandResponseType response_type = 1;
-  int64 status = 2;
-  string message = 3;
-  bytes response_data = 4;
+  CommandResponseType     response_type   = 1;
+  int64                   status          = 2;
+  string                  message         = 3;
+  bytes                   response_data   = 4;
   repeated SpeechResponse speech_response = 5;
 }
 
@@ -136,28 +140,61 @@ enum CommandResponseType {
 // Howevery, output_type AUDIO will return multiple blocks of audio signal
 // that have to be concatenated or streamed to an audio device
 message SpeechResponse {
-  // The audio data bytes encoded as specified in
-  // `SpeechRequestOptionAudioFormat`.
-  int64 status = 1;
-  bytes data = 2;
-  string input_type = 3;
+  // The audio data bytes encoded as specified in `SpeechRequestOptionAudioFormat`.
+  int64  status      = 1;
+  bytes  data        = 2;
+  string input_type  = 3;
   string output_type = 4;
 }
 
 // Requests a VoiceListResponse that contains all available voices (with the
 // specified locale)
-message VoiceListRequest { SpeechLocale locale = 1; }
+message VoiceListRequest {
+  SpeechLocale locale = 1;
+}
+
+// Adds a voice clone to the server using a wav file provided via this request
+message AddVoiceRequest {
+  // The locale of the voice to be added.
+  SpeechLocale locale = 1;
+  // The wav file for cloning the voice, provided as bytes.
+  bytes data = 2;
+  // The name of the new voice.
+  string voice_name = 3;
+  // The name of the base voice to use for cloning. This voice must be running on the server and be one of the default voices.
+  string base_voice_name = 4;
+  // whether voice is temporary (not available after server restart or non-temporary
+  bool temporary_voice = 5;
+}
+
+// The response to an AddVoiceRequest, indicating the status of the operation.
+message AddVoiceResponse {
+  // The status indicating whether the voice has been added successfully.
+  VoiceAdditionStatus status = 1;
+}
+
+// Status codes for adding a new voice.
+enum VoiceAdditionStatus {
+  // Voice was added successfully.
+  SUCCESS = 0;
+  // The provided voice data was invalid.
+  INVALID_VOICE_DATA = 1;
+  // The requested base voice was not found.
+  BASE_VOICE_NOT_FOUND = 2;
+  // The voice could not be added due to an internal server error.
+  INTERNAL_ERROR = 3;
+}
 
 // Status codes for clearing the cache.
 enum ClearCacheStatus {
-    // Cache was cleared successfully.
-    CLEARED_SUCCESSFULLY = 0;
-    // The request was received, but caching is not enabled on the server.
-    CACHE_DISABLED = 1;
-    // Voice ID provided does not exist
-    VOICE_ID_NOT_FOUND = 3;
-    // An error occurred during the operation.
-    CLEAR_CACHE_ERROR = 2;
+  // Cache was cleared successfully.
+  CLEARED_SUCCESSFULLY = 0;
+  // The request was received, but caching is not enabled on the server.
+  CACHE_DISABLED = 1;
+  // Voice ID provided does not exist
+  VOICE_ID_NOT_FOUND = 3;
+  // An error occurred during the operation.
+  CLEAR_CACHE_ERROR = 2;
 }
 
 message ClearCacheRequest {
@@ -171,4 +208,41 @@ message ClearCacheResponse {
   ClearCacheStatus status = 1;
   // The number of entries that were deleted.
   int32 deleted_count = 3;
+}
+
+// Status codes for checking the cache backend.
+enum TestCacheConnectionStatus {
+  // Cache backend is enabled and usable.
+  TEST_CACHE_CONNECTION_OK = 0;
+  // Cache backend is not enabled/configured.
+  TEST_CACHE_CONNECTION_CACHE_DISABLED = 1;
+  // Cache backend is enabled but not usable (e.g. connection failure/timeouts).
+  TEST_CACHE_CONNECTION_ERROR = 2;
+}
+
+message TestCacheConnectionRequest {
+}
+
+message TestCacheConnectionResponse {
+  TestCacheConnectionStatus status = 1;
+  // Configured backend name (e.g. diskcache/redis/postgres).
+  string backend = 2;
+  // Human-readable detail (empty when OK).
+  string message = 3;
+}
+
+// Request for SSML documentation for a specific voice.
+message SsmlDocumentationRequest {
+  // The voice ID to get SSML documentation for.
+  string voice_id = 1;
+  // BCP-47 locale code for the documentation language, e.g. "en", "de".
+  string locale = 2;
+}
+
+// Response containing SSML documentation sections for a voice.
+message SsmlDocumentationResponse {
+  // The voice ID this documentation belongs to.
+  string voice_id = 1;
+  // Human-readable documentation sections, one per supported non-internal tag per locale.
+  repeated SsmlDocSection documentation = 2;
 }
