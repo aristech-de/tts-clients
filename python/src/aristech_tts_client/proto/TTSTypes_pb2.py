@@ -24,7 +24,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0eTTSTypes.proto\x12\x0c\x61ristech.tts\"y\n\x13SpeechRequestOption\x12\x10\n\x08voice_id\x18\x01 \x01(\t\x12.\n\x05\x61udio\x18\x02 \x01(\x0b\x32\x1f.aristech.tts.SpeechAudioFormat\x12\x11\n\tnormalize\x18\x03 \x01(\x08\x12\r\n\x05\x63\x61\x63he\x18\x04 \x01(\x08\"\xaf\x02\n\x11SpeechAudioFormat\x12<\n\tcontainer\x18\x01 \x01(\x0e\x32).aristech.tts.SpeechAudioFormat.Container\x12\x34\n\x05\x63odec\x18\x02 \x01(\x0e\x32%.aristech.tts.SpeechAudioFormat.Codec\x12\x12\n\nsamplerate\x18\x03 \x01(\x05\x12\x11\n\tbit_depth\x18\x04 \x01(\x05\x12\x10\n\x08\x63hannels\x18\x05 \x01(\x05\"D\n\tContainer\x12\x07\n\x03RAW\x10\x00\x12\x07\n\x03WAV\x10\x01\x12\x08\n\x04\x46LAC\x10\x02\x12\x07\n\x03OGG\x10\x03\x12\x07\n\x03MP3\x10\x04\x12\t\n\x05SPEEX\x10\x05\"\'\n\x05\x43odec\x12\x07\n\x03PCM\x10\x00\x12\n\n\x06MU_LAW\x10\x01\x12\t\n\x05\x41_LAW\x10\x02\"\\\n\x0cSpeechLocale\x12\x10\n\x08language\x18\x01 \x01(\t\x12\x0e\n\x06\x61\x63\x63\x65nt\x18\x02 \x01(\t\x12\x15\n\rlanguage_name\x18\x03 \x01(\t\x12\x13\n\x0b\x61\x63\x63\x65nt_name\x18\x04 \x01(\t\",\n\rVoiceDefaults\x12\x0c\n\x04rate\x18\x01 \x01(\t\x12\r\n\x05pitch\x18\x02 \x01(\t\"\xe6\x02\n\x05Voice\x12\x0c\n\x04name\x18\x01 \x01(\t\x12.\n\x05\x61udio\x18\x02 \x01(\x0b\x32\x1f.aristech.tts.SpeechAudioFormat\x12*\n\x06locale\x18\x03 \x01(\x0b\x32\x1a.aristech.tts.SpeechLocale\x12*\n\x06gender\x18\x04 \x01(\x0e\x32\x1a.aristech.tts.Voice.Gender\x12\x10\n\x08voice_id\x18\x05 \x01(\t\x12\x0c\n\x04uuid\x18\x06 \x01(\t\x12\x0f\n\x07version\x18\x07 \x01(\t\x12\x17\n\x0fports_available\x18\x08 \x01(\x05\x12\x17\n\x0f\x64\x65\x62ug_available\x18\t \x01(\x08\x12-\n\x08\x64\x65\x66\x61ults\x18\x0c \x01(\x0b\x32\x1b.aristech.tts.VoiceDefaults\")\n\x06Gender\x12\n\n\x06\x46\x45MALE\x10\x00\x12\x08\n\x04MALE\x10\x01\x12\t\n\x05OTHER\x10\x02J\x04\x08\n\x10\x0bJ\x04\x08\x0b\x10\x0c\x42<\n\x19\x64\x65.aristech.tts.serializeB\x17SpeechServiceTypesProtoP\x01\xa2\x02\x03SSTb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0eTTSTypes.proto\x12\x0c\x61ristech.tts\"\xb9\x03\n\x13SpeechRequestOption\x12\x10\n\x08voice_id\x18\x01 \x01(\t\x12.\n\x05\x61udio\x18\x02 \x01(\x0b\x32\x1f.aristech.tts.SpeechAudioFormat\x12\x11\n\tnormalize\x18\x03 \x01(\x08\x12+\n\x08sqr_type\x18\x05 \x01(\x0e\x32\x15.aristech.tts.SqrTypeB\x02\x18\x01\x12U\n\x15normalization_options\x18\x06 \x01(\x0b\x32\x36.aristech.tts.SpeechRequestOption.NormalizationOptions\x12\x15\n\rdisable_cache\x18\x07 \x01(\x08\x1a\xa4\x01\n\x14NormalizationOptions\x12\'\n\x08sqr_type\x18\x01 \x01(\x0e\x32\x15.aristech.tts.SqrType\x12\x15\n\rkeep_markdown\x18\x02 \x01(\x08\x12*\n\x1d\x61ttempt_single_pass_synthesis\x18\x03 \x01(\x08H\x00\x88\x01\x01\x42 \n\x1e_attempt_single_pass_synthesisJ\x04\x08\x04\x10\x05R\x05\x63\x61\x63he\"\xc0\x02\n\x11SpeechAudioFormat\x12<\n\tcontainer\x18\x01 \x01(\x0e\x32).aristech.tts.SpeechAudioFormat.Container\x12\x34\n\x05\x63odec\x18\x02 \x01(\x0e\x32%.aristech.tts.SpeechAudioFormat.Codec\x12\x12\n\nsamplerate\x18\x03 \x01(\x05\x12\x11\n\tbit_depth\x18\x04 \x01(\x05\x12\x10\n\x08\x63hannels\x18\x05 \x01(\x05\x12\x0f\n\x07\x62itrate\x18\x06 \x01(\x05\"D\n\tContainer\x12\x07\n\x03RAW\x10\x00\x12\x07\n\x03WAV\x10\x01\x12\x08\n\x04\x46LAC\x10\x02\x12\x07\n\x03OGG\x10\x03\x12\x07\n\x03MP3\x10\x04\x12\t\n\x05SPEEX\x10\x05\"\'\n\x05\x43odec\x12\x07\n\x03PCM\x10\x00\x12\n\n\x06MU_LAW\x10\x01\x12\t\n\x05\x41_LAW\x10\x02\"\\\n\x0cSpeechLocale\x12\x10\n\x08language\x18\x01 \x01(\t\x12\x0e\n\x06\x61\x63\x63\x65nt\x18\x02 \x01(\t\x12\x15\n\rlanguage_name\x18\x03 \x01(\t\x12\x13\n\x0b\x61\x63\x63\x65nt_name\x18\x04 \x01(\t\"\x82\x01\n\rVoiceDefaults\x12\x0c\n\x04rate\x18\x01 \x01(\t\x12\r\n\x05pitch\x18\x02 \x01(\t\x12\x15\n\rdefault_voice\x18\x03 \x01(\x08\x12\x0e\n\x06volume\x18\x04 \x01(\t\x12-\n%attempt_single_pass_synthesis_default\x18\x05 \x01(\x08\"\xc4\x03\n\x05Voice\x12\x0c\n\x04name\x18\x01 \x01(\t\x12.\n\x05\x61udio\x18\x02 \x01(\x0b\x32\x1f.aristech.tts.SpeechAudioFormat\x12*\n\x06locale\x18\x03 \x01(\x0b\x32\x1a.aristech.tts.SpeechLocale\x12*\n\x06gender\x18\x04 \x01(\x0e\x32\x1a.aristech.tts.Voice.Gender\x12\x10\n\x08voice_id\x18\x05 \x01(\t\x12\x0c\n\x04uuid\x18\x06 \x01(\t\x12\x0f\n\x07version\x18\x07 \x01(\t\x12\x17\n\x0fports_available\x18\x08 \x01(\x05\x12\x17\n\x0f\x64\x65\x62ug_available\x18\t \x01(\x08\x12-\n\x08\x64\x65\x66\x61ults\x18\x0c \x01(\x0b\x32\x1b.aristech.tts.VoiceDefaults\x12&\n\x1esupports_single_pass_synthesis\x18\r \x01(\x08\x12\x34\n\x0cssml_profile\x18\x0e \x01(\x0b\x32\x1e.aristech.tts.VoiceSsmlProfile\")\n\x06Gender\x12\n\n\x06\x46\x45MALE\x10\x00\x12\x08\n\x04MALE\x10\x01\x12\t\n\x05OTHER\x10\x02J\x04\x08\n\x10\x0bJ\x04\x08\x0b\x10\x0c\"L\n\x0bSsmlTagInfo\x12\x0b\n\x03tag\x18\x01 \x01(\t\x12\x1a\n\x12\x61llowed_attributes\x18\x02 \x03(\t\x12\x14\n\x0cself_closing\x18\x03 \x01(\x08\"E\n\x10VoiceSsmlProfile\x12\x31\n\x0esupported_tags\x18\x01 \x03(\x0b\x32\x19.aristech.tts.SsmlTagInfo\"P\n\x0eSsmlDocSection\x12\x0b\n\x03tag\x18\x01 \x01(\t\x12\r\n\x05title\x18\x02 \x01(\t\x12\x10\n\x08markdown\x18\x03 \x01(\t\x12\x10\n\x08\x65xamples\x18\x04 \x03(\t*N\n\x07SqrType\x12\t\n\x05UNSET\x10\x00\x12\x0b\n\x07NO_SQRS\x10\x01\x12\x0e\n\nPRODUCTIVE\x10\x02\x12\x12\n\x0eNON_PRODUCTIVE\x10\x03\x12\x07\n\x03\x41LL\x10\x04\x42<\n\x19\x64\x65.aristech.tts.serializeB\x17SpeechServiceTypesProtoP\x01\xa2\x02\x03SSTb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -32,20 +32,32 @@ _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'TTSTypes_pb2', _globals)
 if not _descriptor._USE_C_DESCRIPTORS:
   _globals['DESCRIPTOR']._loaded_options = None
   _globals['DESCRIPTOR']._serialized_options = b'\n\031de.aristech.tts.serializeB\027SpeechServiceTypesProtoP\001\242\002\003SST'
-  _globals['_SPEECHREQUESTOPTION']._serialized_start=32
-  _globals['_SPEECHREQUESTOPTION']._serialized_end=153
-  _globals['_SPEECHAUDIOFORMAT']._serialized_start=156
-  _globals['_SPEECHAUDIOFORMAT']._serialized_end=459
-  _globals['_SPEECHAUDIOFORMAT_CONTAINER']._serialized_start=350
-  _globals['_SPEECHAUDIOFORMAT_CONTAINER']._serialized_end=418
-  _globals['_SPEECHAUDIOFORMAT_CODEC']._serialized_start=420
-  _globals['_SPEECHAUDIOFORMAT_CODEC']._serialized_end=459
-  _globals['_SPEECHLOCALE']._serialized_start=461
-  _globals['_SPEECHLOCALE']._serialized_end=553
-  _globals['_VOICEDEFAULTS']._serialized_start=555
-  _globals['_VOICEDEFAULTS']._serialized_end=599
-  _globals['_VOICE']._serialized_start=602
-  _globals['_VOICE']._serialized_end=960
-  _globals['_VOICE_GENDER']._serialized_start=907
-  _globals['_VOICE_GENDER']._serialized_end=948
+  _globals['_SPEECHREQUESTOPTION'].fields_by_name['sqr_type']._loaded_options = None
+  _globals['_SPEECHREQUESTOPTION'].fields_by_name['sqr_type']._serialized_options = b'\030\001'
+  _globals['_SQRTYPE']._serialized_start=1712
+  _globals['_SQRTYPE']._serialized_end=1790
+  _globals['_SPEECHREQUESTOPTION']._serialized_start=33
+  _globals['_SPEECHREQUESTOPTION']._serialized_end=474
+  _globals['_SPEECHREQUESTOPTION_NORMALIZATIONOPTIONS']._serialized_start=297
+  _globals['_SPEECHREQUESTOPTION_NORMALIZATIONOPTIONS']._serialized_end=461
+  _globals['_SPEECHAUDIOFORMAT']._serialized_start=477
+  _globals['_SPEECHAUDIOFORMAT']._serialized_end=797
+  _globals['_SPEECHAUDIOFORMAT_CONTAINER']._serialized_start=688
+  _globals['_SPEECHAUDIOFORMAT_CONTAINER']._serialized_end=756
+  _globals['_SPEECHAUDIOFORMAT_CODEC']._serialized_start=758
+  _globals['_SPEECHAUDIOFORMAT_CODEC']._serialized_end=797
+  _globals['_SPEECHLOCALE']._serialized_start=799
+  _globals['_SPEECHLOCALE']._serialized_end=891
+  _globals['_VOICEDEFAULTS']._serialized_start=894
+  _globals['_VOICEDEFAULTS']._serialized_end=1024
+  _globals['_VOICE']._serialized_start=1027
+  _globals['_VOICE']._serialized_end=1479
+  _globals['_VOICE_GENDER']._serialized_start=1426
+  _globals['_VOICE_GENDER']._serialized_end=1467
+  _globals['_SSMLTAGINFO']._serialized_start=1481
+  _globals['_SSMLTAGINFO']._serialized_end=1557
+  _globals['_VOICESSMLPROFILE']._serialized_start=1559
+  _globals['_VOICESSMLPROFILE']._serialized_end=1628
+  _globals['_SSMLDOCSECTION']._serialized_start=1630
+  _globals['_SSMLDOCSECTION']._serialized_end=1710
 # @@protoc_insertion_point(module_scope)

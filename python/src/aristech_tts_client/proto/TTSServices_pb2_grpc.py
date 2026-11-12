@@ -61,10 +61,25 @@ class SpeechServiceStub(object):
                 request_serializer=TTSServices__pb2.TranscriptionRequest.SerializeToString,
                 response_deserializer=TTSServices__pb2.TranscriptionResponse.FromString,
                 _registered_method=True)
+        self.AddVoice = channel.unary_unary(
+                '/aristech.tts.SpeechService/AddVoice',
+                request_serializer=TTSServices__pb2.AddVoiceRequest.SerializeToString,
+                response_deserializer=TTSServices__pb2.AddVoiceResponse.FromString,
+                _registered_method=True)
+        self.GetSsmlDocumentation = channel.unary_unary(
+                '/aristech.tts.SpeechService/GetSsmlDocumentation',
+                request_serializer=TTSServices__pb2.SsmlDocumentationRequest.SerializeToString,
+                response_deserializer=TTSServices__pb2.SsmlDocumentationResponse.FromString,
+                _registered_method=True)
         self.ClearCache = channel.unary_unary(
                 '/aristech.tts.SpeechService/ClearCache',
                 request_serializer=TTSServices__pb2.ClearCacheRequest.SerializeToString,
                 response_deserializer=TTSServices__pb2.ClearCacheResponse.FromString,
+                _registered_method=True)
+        self.TestCacheConnection = channel.unary_unary(
+                '/aristech.tts.SpeechService/TestCacheConnection',
+                request_serializer=TTSServices__pb2.TestCacheConnectionRequest.SerializeToString,
+                response_deserializer=TTSServices__pb2.TestCacheConnectionResponse.FromString,
                 _registered_method=True)
 
 
@@ -73,16 +88,16 @@ class SpeechServiceServicer(object):
     """
 
     def GetSpeech(self, request, context):
-        """Performs Text-to-Speech with the given SpeechRequest and streams back the
-        audio as packets of type SpeechResponse.
+        """Performs Text-to-Speech with the given SpeechRequest and streams back the audio as
+        packets of type SpeechResponse.
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
     def ControlServer(self, request_iterator, context):
-        """Performs Text-to-Speech and streams back the audio. Adds the capability to
-        stop the speech synthesis and free a port during synthesis.
+        """Performs Text-to-Speech and streams back the audio. Adds the capability to stop
+        the speech synthesis and free a port during synthesis.
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -109,8 +124,29 @@ class SpeechServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def AddVoice(self, request, context):
+        """adds a clone of voice to server created from a wav-file provided by the request
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def GetSsmlDocumentation(self, request, context):
+        """Returns SSML documentation for a specific voice, filtered to that voice's supported tags.
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
     def ClearCache(self, request, context):
         """Clears the cache of the server, removing all cached audio data.
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def TestCacheConnection(self, request, context):
+        """Tests whether the configured cache backend is reachable/usable.
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -144,10 +180,25 @@ def add_SpeechServiceServicer_to_server(servicer, server):
                     request_deserializer=TTSServices__pb2.TranscriptionRequest.FromString,
                     response_serializer=TTSServices__pb2.TranscriptionResponse.SerializeToString,
             ),
+            'AddVoice': grpc.unary_unary_rpc_method_handler(
+                    servicer.AddVoice,
+                    request_deserializer=TTSServices__pb2.AddVoiceRequest.FromString,
+                    response_serializer=TTSServices__pb2.AddVoiceResponse.SerializeToString,
+            ),
+            'GetSsmlDocumentation': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetSsmlDocumentation,
+                    request_deserializer=TTSServices__pb2.SsmlDocumentationRequest.FromString,
+                    response_serializer=TTSServices__pb2.SsmlDocumentationResponse.SerializeToString,
+            ),
             'ClearCache': grpc.unary_unary_rpc_method_handler(
                     servicer.ClearCache,
                     request_deserializer=TTSServices__pb2.ClearCacheRequest.FromString,
                     response_serializer=TTSServices__pb2.ClearCacheResponse.SerializeToString,
+            ),
+            'TestCacheConnection': grpc.unary_unary_rpc_method_handler(
+                    servicer.TestCacheConnection,
+                    request_deserializer=TTSServices__pb2.TestCacheConnectionRequest.FromString,
+                    response_serializer=TTSServices__pb2.TestCacheConnectionResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -297,6 +348,60 @@ class SpeechService(object):
             _registered_method=True)
 
     @staticmethod
+    def AddVoice(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/aristech.tts.SpeechService/AddVoice',
+            TTSServices__pb2.AddVoiceRequest.SerializeToString,
+            TTSServices__pb2.AddVoiceResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def GetSsmlDocumentation(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/aristech.tts.SpeechService/GetSsmlDocumentation',
+            TTSServices__pb2.SsmlDocumentationRequest.SerializeToString,
+            TTSServices__pb2.SsmlDocumentationResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
     def ClearCache(request,
             target,
             options=(),
@@ -313,6 +418,33 @@ class SpeechService(object):
             '/aristech.tts.SpeechService/ClearCache',
             TTSServices__pb2.ClearCacheRequest.SerializeToString,
             TTSServices__pb2.ClearCacheResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def TestCacheConnection(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/aristech.tts.SpeechService/TestCacheConnection',
+            TTSServices__pb2.TestCacheConnectionRequest.SerializeToString,
+            TTSServices__pb2.TestCacheConnectionResponse.FromString,
             options,
             channel_credentials,
             insecure,

@@ -25,7 +25,7 @@ _sym_db = _symbol_database.Default()
 from . import TTSTypes_pb2 as TTSTypes__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x11TTSServices.proto\x12\x0c\x61ristech.tts\x1a\x0eTTSTypes.proto\"\x8e\x01\n\rSpeechRequest\x12\x0c\n\x04text\x18\x01 \x01(\t\x12\x32\n\x07options\x18\x02 \x01(\x0b\x32!.aristech.tts.SpeechRequestOption\x12\x12\n\nparameters\x18\x03 \x01(\t\x12\x12\n\ninput_type\x18\x04 \x01(\t\x12\x13\n\x0boutput_type\x18\x05 \x01(\t\"5\n\x0fPhonesetRequest\x12\"\n\x05voice\x18\x01 \x01(\x0b\x32\x13.aristech.tts.Voice\"E\n\x10PhonesetResponse\x12\x0e\n\x06status\x18\x01 \x01(\x03\x12\x0f\n\x07message\x18\x02 \x01(\t\x12\x10\n\x08phoneset\x18\x03 \x01(\t\"H\n\x14TranscriptionRequest\x12\"\n\x05voice\x18\x01 \x01(\x0b\x32\x13.aristech.tts.Voice\x12\x0c\n\x04word\x18\x02 \x01(\t\"O\n\x15TranscriptionResponse\x12\x0e\n\x06status\x18\x01 \x01(\x03\x12\x0f\n\x07message\x18\x02 \x01(\t\x12\x15\n\rtranscription\x18\x03 \x01(\t\"\x8b\x01\n\rServerCommand\x12/\n\x0c\x63ommand_type\x18\x01 \x01(\x0e\x32\x19.aristech.tts.CommandType\x12\x14\n\x0c\x63ommand_data\x18\x02 \x01(\x0c\x12\x33\n\x0espeech_request\x18\x03 \x01(\x0b\x32\x1b.aristech.tts.SpeechRequest\"\xc0\x01\n\x15ServerCommandResponse\x12\x38\n\rresponse_type\x18\x01 \x01(\x0e\x32!.aristech.tts.CommandResponseType\x12\x0e\n\x06status\x18\x02 \x01(\x03\x12\x0f\n\x07message\x18\x03 \x01(\t\x12\x15\n\rresponse_data\x18\x04 \x01(\x0c\x12\x35\n\x0fspeech_response\x18\x05 \x03(\x0b\x32\x1c.aristech.tts.SpeechResponse\"W\n\x0eSpeechResponse\x12\x0e\n\x06status\x18\x01 \x01(\x03\x12\x0c\n\x04\x64\x61ta\x18\x02 \x01(\x0c\x12\x12\n\ninput_type\x18\x03 \x01(\t\x12\x13\n\x0boutput_type\x18\x04 \x01(\t\">\n\x10VoiceListRequest\x12*\n\x06locale\x18\x01 \x01(\x0b\x32\x1a.aristech.tts.SpeechLocale\"%\n\x11\x43learCacheRequest\x12\x10\n\x08voice_id\x18\x01 \x01(\t\"[\n\x12\x43learCacheResponse\x12.\n\x06status\x18\x01 \x01(\x0e\x32\x1e.aristech.tts.ClearCacheStatus\x12\x15\n\rdeleted_count\x18\x03 \x01(\x05*F\n\x0b\x43ommandType\x12\x11\n\rSTART_REQUEST\x10\x00\x12\x10\n\x0cSTOP_REQUEST\x10\x01\x12\x12\n\x0eSTATUS_REQUEST\x10\x02*e\n\x13\x43ommandResponseType\x12\x11\n\rSTARTRESPONSE\x10\x00\x12\x10\n\x0cSTOPRESPONSE\x10\x01\x12\x12\n\x0eSTATUSRESPONSE\x10\x02\x12\x15\n\x11SYNTHESISRESPONSE\x10\x03*o\n\x10\x43learCacheStatus\x12\x18\n\x14\x43LEARED_SUCCESSFULLY\x10\x00\x12\x12\n\x0e\x43\x41\x43HE_DISABLED\x10\x01\x12\x16\n\x12VOICE_ID_NOT_FOUND\x10\x03\x12\x15\n\x11\x43LEAR_CACHE_ERROR\x10\x02\x32\xfd\x03\n\rSpeechService\x12J\n\tGetSpeech\x12\x1b.aristech.tts.SpeechRequest\x1a\x1c.aristech.tts.SpeechResponse\"\x00\x30\x01\x12W\n\rControlServer\x12\x1b.aristech.tts.ServerCommand\x1a#.aristech.tts.ServerCommandResponse\"\x00(\x01\x30\x01\x12G\n\x0cGetVoiceList\x12\x1e.aristech.tts.VoiceListRequest\x1a\x13.aristech.tts.Voice\"\x00\x30\x01\x12N\n\x0bGetPhoneset\x12\x1d.aristech.tts.PhonesetRequest\x1a\x1e.aristech.tts.PhonesetResponse\"\x00\x12]\n\x10GetTranscription\x12\".aristech.tts.TranscriptionRequest\x1a#.aristech.tts.TranscriptionResponse\"\x00\x12O\n\nClearCache\x12\x1f.aristech.tts.ClearCacheRequest\x1a .aristech.tts.ClearCacheResponse2\\\n\x0c\x44\x65\x62ugService\x12L\n\x0bProcessData\x12\x1b.aristech.tts.SpeechRequest\x1a\x1c.aristech.tts.SpeechResponse\"\x00\x30\x01\x42\x37\n\x19\x64\x65.aristech.tts.serializeB\x12SpeechServiceProtoP\x01\xa2\x02\x03SSPb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x11TTSServices.proto\x12\x0c\x61ristech.tts\x1a\x0eTTSTypes.proto\"\x8e\x01\n\rSpeechRequest\x12\x0c\n\x04text\x18\x01 \x01(\t\x12\x32\n\x07options\x18\x02 \x01(\x0b\x32!.aristech.tts.SpeechRequestOption\x12\x12\n\nparameters\x18\x03 \x01(\t\x12\x12\n\ninput_type\x18\x04 \x01(\t\x12\x13\n\x0boutput_type\x18\x05 \x01(\t\"5\n\x0fPhonesetRequest\x12\"\n\x05voice\x18\x01 \x01(\x0b\x32\x13.aristech.tts.Voice\"E\n\x10PhonesetResponse\x12\x0e\n\x06status\x18\x01 \x01(\x03\x12\x0f\n\x07message\x18\x02 \x01(\t\x12\x10\n\x08phoneset\x18\x03 \x01(\t\"H\n\x14TranscriptionRequest\x12\"\n\x05voice\x18\x01 \x01(\x0b\x32\x13.aristech.tts.Voice\x12\x0c\n\x04word\x18\x02 \x01(\t\"O\n\x15TranscriptionResponse\x12\x0e\n\x06status\x18\x01 \x01(\x03\x12\x0f\n\x07message\x18\x02 \x01(\t\x12\x15\n\rtranscription\x18\x03 \x01(\t\"\x8b\x01\n\rServerCommand\x12/\n\x0c\x63ommand_type\x18\x01 \x01(\x0e\x32\x19.aristech.tts.CommandType\x12\x14\n\x0c\x63ommand_data\x18\x02 \x01(\x0c\x12\x33\n\x0espeech_request\x18\x03 \x01(\x0b\x32\x1b.aristech.tts.SpeechRequest\"\xc0\x01\n\x15ServerCommandResponse\x12\x38\n\rresponse_type\x18\x01 \x01(\x0e\x32!.aristech.tts.CommandResponseType\x12\x0e\n\x06status\x18\x02 \x01(\x03\x12\x0f\n\x07message\x18\x03 \x01(\t\x12\x15\n\rresponse_data\x18\x04 \x01(\x0c\x12\x35\n\x0fspeech_response\x18\x05 \x03(\x0b\x32\x1c.aristech.tts.SpeechResponse\"W\n\x0eSpeechResponse\x12\x0e\n\x06status\x18\x01 \x01(\x03\x12\x0c\n\x04\x64\x61ta\x18\x02 \x01(\x0c\x12\x12\n\ninput_type\x18\x03 \x01(\t\x12\x13\n\x0boutput_type\x18\x04 \x01(\t\">\n\x10VoiceListRequest\x12*\n\x06locale\x18\x01 \x01(\x0b\x32\x1a.aristech.tts.SpeechLocale\"\x91\x01\n\x0f\x41\x64\x64VoiceRequest\x12*\n\x06locale\x18\x01 \x01(\x0b\x32\x1a.aristech.tts.SpeechLocale\x12\x0c\n\x04\x64\x61ta\x18\x02 \x01(\x0c\x12\x12\n\nvoice_name\x18\x03 \x01(\t\x12\x17\n\x0f\x62\x61se_voice_name\x18\x04 \x01(\t\x12\x17\n\x0ftemporary_voice\x18\x05 \x01(\x08\"E\n\x10\x41\x64\x64VoiceResponse\x12\x31\n\x06status\x18\x01 \x01(\x0e\x32!.aristech.tts.VoiceAdditionStatus\"%\n\x11\x43learCacheRequest\x12\x10\n\x08voice_id\x18\x01 \x01(\t\"[\n\x12\x43learCacheResponse\x12.\n\x06status\x18\x01 \x01(\x0e\x32\x1e.aristech.tts.ClearCacheStatus\x12\x15\n\rdeleted_count\x18\x03 \x01(\x05\"\x1c\n\x1aTestCacheConnectionRequest\"x\n\x1bTestCacheConnectionResponse\x12\x37\n\x06status\x18\x01 \x01(\x0e\x32\'.aristech.tts.TestCacheConnectionStatus\x12\x0f\n\x07\x62\x61\x63kend\x18\x02 \x01(\t\x12\x0f\n\x07message\x18\x03 \x01(\t\"<\n\x18SsmlDocumentationRequest\x12\x10\n\x08voice_id\x18\x01 \x01(\t\x12\x0e\n\x06locale\x18\x02 \x01(\t\"b\n\x19SsmlDocumentationResponse\x12\x10\n\x08voice_id\x18\x01 \x01(\t\x12\x33\n\rdocumentation\x18\x02 \x03(\x0b\x32\x1c.aristech.tts.SsmlDocSection*F\n\x0b\x43ommandType\x12\x11\n\rSTART_REQUEST\x10\x00\x12\x10\n\x0cSTOP_REQUEST\x10\x01\x12\x12\n\x0eSTATUS_REQUEST\x10\x02*e\n\x13\x43ommandResponseType\x12\x11\n\rSTARTRESPONSE\x10\x00\x12\x10\n\x0cSTOPRESPONSE\x10\x01\x12\x12\n\x0eSTATUSRESPONSE\x10\x02\x12\x15\n\x11SYNTHESISRESPONSE\x10\x03*h\n\x13VoiceAdditionStatus\x12\x0b\n\x07SUCCESS\x10\x00\x12\x16\n\x12INVALID_VOICE_DATA\x10\x01\x12\x18\n\x14\x42\x41SE_VOICE_NOT_FOUND\x10\x02\x12\x12\n\x0eINTERNAL_ERROR\x10\x03*o\n\x10\x43learCacheStatus\x12\x18\n\x14\x43LEARED_SUCCESSFULLY\x10\x00\x12\x12\n\x0e\x43\x41\x43HE_DISABLED\x10\x01\x12\x16\n\x12VOICE_ID_NOT_FOUND\x10\x03\x12\x15\n\x11\x43LEAR_CACHE_ERROR\x10\x02*\x84\x01\n\x19TestCacheConnectionStatus\x12\x1c\n\x18TEST_CACHE_CONNECTION_OK\x10\x00\x12(\n$TEST_CACHE_CONNECTION_CACHE_DISABLED\x10\x01\x12\x1f\n\x1bTEST_CACHE_CONNECTION_ERROR\x10\x02\x32\x9f\x06\n\rSpeechService\x12J\n\tGetSpeech\x12\x1b.aristech.tts.SpeechRequest\x1a\x1c.aristech.tts.SpeechResponse\"\x00\x30\x01\x12W\n\rControlServer\x12\x1b.aristech.tts.ServerCommand\x1a#.aristech.tts.ServerCommandResponse\"\x00(\x01\x30\x01\x12G\n\x0cGetVoiceList\x12\x1e.aristech.tts.VoiceListRequest\x1a\x13.aristech.tts.Voice\"\x00\x30\x01\x12N\n\x0bGetPhoneset\x12\x1d.aristech.tts.PhonesetRequest\x1a\x1e.aristech.tts.PhonesetResponse\"\x00\x12]\n\x10GetTranscription\x12\".aristech.tts.TranscriptionRequest\x1a#.aristech.tts.TranscriptionResponse\"\x00\x12K\n\x08\x41\x64\x64Voice\x12\x1d.aristech.tts.AddVoiceRequest\x1a\x1e.aristech.tts.AddVoiceResponse\"\x00\x12g\n\x14GetSsmlDocumentation\x12&.aristech.tts.SsmlDocumentationRequest\x1a\'.aristech.tts.SsmlDocumentationResponse\x12O\n\nClearCache\x12\x1f.aristech.tts.ClearCacheRequest\x1a .aristech.tts.ClearCacheResponse\x12j\n\x13TestCacheConnection\x12(.aristech.tts.TestCacheConnectionRequest\x1a).aristech.tts.TestCacheConnectionResponse2\\\n\x0c\x44\x65\x62ugService\x12L\n\x0bProcessData\x12\x1b.aristech.tts.SpeechRequest\x1a\x1c.aristech.tts.SpeechResponse\"\x00\x30\x01\x42\x37\n\x19\x64\x65.aristech.tts.serializeB\x12SpeechServiceProtoP\x01\xa2\x02\x03SSPb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -33,12 +33,16 @@ _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'TTSServices_pb2', _globals)
 if not _descriptor._USE_C_DESCRIPTORS:
   _globals['DESCRIPTOR']._loaded_options = None
   _globals['DESCRIPTOR']._serialized_options = b'\n\031de.aristech.tts.serializeB\022SpeechServiceProtoP\001\242\002\003SSP'
-  _globals['_COMMANDTYPE']._serialized_start=1099
-  _globals['_COMMANDTYPE']._serialized_end=1169
-  _globals['_COMMANDRESPONSETYPE']._serialized_start=1171
-  _globals['_COMMANDRESPONSETYPE']._serialized_end=1272
-  _globals['_CLEARCACHESTATUS']._serialized_start=1274
-  _globals['_CLEARCACHESTATUS']._serialized_end=1385
+  _globals['_COMMANDTYPE']._serialized_start=1632
+  _globals['_COMMANDTYPE']._serialized_end=1702
+  _globals['_COMMANDRESPONSETYPE']._serialized_start=1704
+  _globals['_COMMANDRESPONSETYPE']._serialized_end=1805
+  _globals['_VOICEADDITIONSTATUS']._serialized_start=1807
+  _globals['_VOICEADDITIONSTATUS']._serialized_end=1911
+  _globals['_CLEARCACHESTATUS']._serialized_start=1913
+  _globals['_CLEARCACHESTATUS']._serialized_end=2024
+  _globals['_TESTCACHECONNECTIONSTATUS']._serialized_start=2027
+  _globals['_TESTCACHECONNECTIONSTATUS']._serialized_end=2159
   _globals['_SPEECHREQUEST']._serialized_start=52
   _globals['_SPEECHREQUEST']._serialized_end=194
   _globals['_PHONESETREQUEST']._serialized_start=196
@@ -57,12 +61,24 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['_SPEECHRESPONSE']._serialized_end=901
   _globals['_VOICELISTREQUEST']._serialized_start=903
   _globals['_VOICELISTREQUEST']._serialized_end=965
-  _globals['_CLEARCACHEREQUEST']._serialized_start=967
-  _globals['_CLEARCACHEREQUEST']._serialized_end=1004
-  _globals['_CLEARCACHERESPONSE']._serialized_start=1006
-  _globals['_CLEARCACHERESPONSE']._serialized_end=1097
-  _globals['_SPEECHSERVICE']._serialized_start=1388
-  _globals['_SPEECHSERVICE']._serialized_end=1897
-  _globals['_DEBUGSERVICE']._serialized_start=1899
-  _globals['_DEBUGSERVICE']._serialized_end=1991
+  _globals['_ADDVOICEREQUEST']._serialized_start=968
+  _globals['_ADDVOICEREQUEST']._serialized_end=1113
+  _globals['_ADDVOICERESPONSE']._serialized_start=1115
+  _globals['_ADDVOICERESPONSE']._serialized_end=1184
+  _globals['_CLEARCACHEREQUEST']._serialized_start=1186
+  _globals['_CLEARCACHEREQUEST']._serialized_end=1223
+  _globals['_CLEARCACHERESPONSE']._serialized_start=1225
+  _globals['_CLEARCACHERESPONSE']._serialized_end=1316
+  _globals['_TESTCACHECONNECTIONREQUEST']._serialized_start=1318
+  _globals['_TESTCACHECONNECTIONREQUEST']._serialized_end=1346
+  _globals['_TESTCACHECONNECTIONRESPONSE']._serialized_start=1348
+  _globals['_TESTCACHECONNECTIONRESPONSE']._serialized_end=1468
+  _globals['_SSMLDOCUMENTATIONREQUEST']._serialized_start=1470
+  _globals['_SSMLDOCUMENTATIONREQUEST']._serialized_end=1530
+  _globals['_SSMLDOCUMENTATIONRESPONSE']._serialized_start=1532
+  _globals['_SSMLDOCUMENTATIONRESPONSE']._serialized_end=1630
+  _globals['_SPEECHSERVICE']._serialized_start=2162
+  _globals['_SPEECHSERVICE']._serialized_end=2961
+  _globals['_DEBUGSERVICE']._serialized_start=2963
+  _globals['_DEBUGSERVICE']._serialized_end=3055
 # @@protoc_insertion_point(module_scope)

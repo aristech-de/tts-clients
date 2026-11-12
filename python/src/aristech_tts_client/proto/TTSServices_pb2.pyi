@@ -69,6 +69,34 @@ SYNTHESISRESPONSE: CommandResponseType.ValueType  # 3
 """Response contains SpeechResponses"""
 global___CommandResponseType = CommandResponseType
 
+class _VoiceAdditionStatus:
+    ValueType = typing.NewType("ValueType", builtins.int)
+    V: typing_extensions.TypeAlias = ValueType
+
+class _VoiceAdditionStatusEnumTypeWrapper(google.protobuf.internal.enum_type_wrapper._EnumTypeWrapper[_VoiceAdditionStatus.ValueType], builtins.type):
+    DESCRIPTOR: google.protobuf.descriptor.EnumDescriptor
+    SUCCESS: _VoiceAdditionStatus.ValueType  # 0
+    """Voice was added successfully."""
+    INVALID_VOICE_DATA: _VoiceAdditionStatus.ValueType  # 1
+    """The provided voice data was invalid."""
+    BASE_VOICE_NOT_FOUND: _VoiceAdditionStatus.ValueType  # 2
+    """The requested base voice was not found."""
+    INTERNAL_ERROR: _VoiceAdditionStatus.ValueType  # 3
+    """The voice could not be added due to an internal server error."""
+
+class VoiceAdditionStatus(_VoiceAdditionStatus, metaclass=_VoiceAdditionStatusEnumTypeWrapper):
+    """Status codes for adding a new voice."""
+
+SUCCESS: VoiceAdditionStatus.ValueType  # 0
+"""Voice was added successfully."""
+INVALID_VOICE_DATA: VoiceAdditionStatus.ValueType  # 1
+"""The provided voice data was invalid."""
+BASE_VOICE_NOT_FOUND: VoiceAdditionStatus.ValueType  # 2
+"""The requested base voice was not found."""
+INTERNAL_ERROR: VoiceAdditionStatus.ValueType  # 3
+"""The voice could not be added due to an internal server error."""
+global___VoiceAdditionStatus = VoiceAdditionStatus
+
 class _ClearCacheStatus:
     ValueType = typing.NewType("ValueType", builtins.int)
     V: typing_extensions.TypeAlias = ValueType
@@ -96,6 +124,30 @@ VOICE_ID_NOT_FOUND: ClearCacheStatus.ValueType  # 3
 CLEAR_CACHE_ERROR: ClearCacheStatus.ValueType  # 2
 """An error occurred during the operation."""
 global___ClearCacheStatus = ClearCacheStatus
+
+class _TestCacheConnectionStatus:
+    ValueType = typing.NewType("ValueType", builtins.int)
+    V: typing_extensions.TypeAlias = ValueType
+
+class _TestCacheConnectionStatusEnumTypeWrapper(google.protobuf.internal.enum_type_wrapper._EnumTypeWrapper[_TestCacheConnectionStatus.ValueType], builtins.type):
+    DESCRIPTOR: google.protobuf.descriptor.EnumDescriptor
+    TEST_CACHE_CONNECTION_OK: _TestCacheConnectionStatus.ValueType  # 0
+    """Cache backend is enabled and usable."""
+    TEST_CACHE_CONNECTION_CACHE_DISABLED: _TestCacheConnectionStatus.ValueType  # 1
+    """Cache backend is not enabled/configured."""
+    TEST_CACHE_CONNECTION_ERROR: _TestCacheConnectionStatus.ValueType  # 2
+    """Cache backend is enabled but not usable (e.g. connection failure/timeouts)."""
+
+class TestCacheConnectionStatus(_TestCacheConnectionStatus, metaclass=_TestCacheConnectionStatusEnumTypeWrapper):
+    """Status codes for checking the cache backend."""
+
+TEST_CACHE_CONNECTION_OK: TestCacheConnectionStatus.ValueType  # 0
+"""Cache backend is enabled and usable."""
+TEST_CACHE_CONNECTION_CACHE_DISABLED: TestCacheConnectionStatus.ValueType  # 1
+"""Cache backend is not enabled/configured."""
+TEST_CACHE_CONNECTION_ERROR: TestCacheConnectionStatus.ValueType  # 2
+"""Cache backend is enabled but not usable (e.g. connection failure/timeouts)."""
+global___TestCacheConnectionStatus = TestCacheConnectionStatus
 
 @typing.final
 class SpeechRequest(google.protobuf.message.Message):
@@ -143,9 +195,7 @@ class PhonesetRequest(google.protobuf.message.Message):
     VOICE_FIELD_NUMBER: builtins.int
     @property
     def voice(self) -> TTSTypes_pb2.Voice:
-        """Required: The voice of which the phoneset is requested. Only `Voice.name`
-        has to be filled
-        """
+        """Required: The voice of which the phoneset is requested. Only `Voice.name` has to be filled"""
 
     def __init__(
         self,
@@ -189,9 +239,7 @@ class TranscriptionRequest(google.protobuf.message.Message):
     """Required: The word to be transcribed"""
     @property
     def voice(self) -> TTSTypes_pb2.Voice:
-        """Required: The voice of which the phoneset is requested. Only `Voice.name`
-        has to be filled
-        """
+        """Required: The voice of which the phoneset is requested. Only `Voice.name` has to be filled"""
 
     def __init__(
         self,
@@ -228,9 +276,7 @@ global___TranscriptionResponse = TranscriptionResponse
 
 @typing.final
 class ServerCommand(google.protobuf.message.Message):
-    """A command that is sent to the speech engine. START_REQUEST has to encapsulate
-    a SpeechRequest.
-    """
+    """A command that is sent to the speech engine. START_REQUEST has to encapsulate a SpeechRequest."""
 
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
@@ -301,9 +347,7 @@ class SpeechResponse(google.protobuf.message.Message):
     INPUT_TYPE_FIELD_NUMBER: builtins.int
     OUTPUT_TYPE_FIELD_NUMBER: builtins.int
     status: builtins.int
-    """The audio data bytes encoded as specified in
-    `SpeechRequestOptionAudioFormat`.
-    """
+    """The audio data bytes encoded as specified in `SpeechRequestOptionAudioFormat`."""
     data: builtins.bytes
     input_type: builtins.str
     output_type: builtins.str
@@ -339,6 +383,61 @@ class VoiceListRequest(google.protobuf.message.Message):
     def ClearField(self, field_name: typing.Literal["locale", b"locale"]) -> None: ...
 
 global___VoiceListRequest = VoiceListRequest
+
+@typing.final
+class AddVoiceRequest(google.protobuf.message.Message):
+    """Adds a voice clone to the server using a wav file provided via this request"""
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+    LOCALE_FIELD_NUMBER: builtins.int
+    DATA_FIELD_NUMBER: builtins.int
+    VOICE_NAME_FIELD_NUMBER: builtins.int
+    BASE_VOICE_NAME_FIELD_NUMBER: builtins.int
+    TEMPORARY_VOICE_FIELD_NUMBER: builtins.int
+    data: builtins.bytes
+    """The wav file for cloning the voice, provided as bytes."""
+    voice_name: builtins.str
+    """The name of the new voice."""
+    base_voice_name: builtins.str
+    """The name of the base voice to use for cloning. This voice must be running on the server and be one of the default voices."""
+    temporary_voice: builtins.bool
+    """whether voice is temporary (not available after server restart or non-temporary"""
+    @property
+    def locale(self) -> TTSTypes_pb2.SpeechLocale:
+        """The locale of the voice to be added."""
+
+    def __init__(
+        self,
+        *,
+        locale: TTSTypes_pb2.SpeechLocale | None = ...,
+        data: builtins.bytes = ...,
+        voice_name: builtins.str = ...,
+        base_voice_name: builtins.str = ...,
+        temporary_voice: builtins.bool = ...,
+    ) -> None: ...
+    def HasField(self, field_name: typing.Literal["locale", b"locale"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing.Literal["base_voice_name", b"base_voice_name", "data", b"data", "locale", b"locale", "temporary_voice", b"temporary_voice", "voice_name", b"voice_name"]) -> None: ...
+
+global___AddVoiceRequest = AddVoiceRequest
+
+@typing.final
+class AddVoiceResponse(google.protobuf.message.Message):
+    """The response to an AddVoiceRequest, indicating the status of the operation."""
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+    STATUS_FIELD_NUMBER: builtins.int
+    status: global___VoiceAdditionStatus.ValueType
+    """The status indicating whether the voice has been added successfully."""
+    def __init__(
+        self,
+        *,
+        status: global___VoiceAdditionStatus.ValueType = ...,
+    ) -> None: ...
+    def ClearField(self, field_name: typing.Literal["status", b"status"]) -> None: ...
+
+global___AddVoiceResponse = AddVoiceResponse
 
 @typing.final
 class ClearCacheRequest(google.protobuf.message.Message):
@@ -377,3 +476,82 @@ class ClearCacheResponse(google.protobuf.message.Message):
     def ClearField(self, field_name: typing.Literal["deleted_count", b"deleted_count", "status", b"status"]) -> None: ...
 
 global___ClearCacheResponse = ClearCacheResponse
+
+@typing.final
+class TestCacheConnectionRequest(google.protobuf.message.Message):
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+    def __init__(
+        self,
+    ) -> None: ...
+
+global___TestCacheConnectionRequest = TestCacheConnectionRequest
+
+@typing.final
+class TestCacheConnectionResponse(google.protobuf.message.Message):
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+    STATUS_FIELD_NUMBER: builtins.int
+    BACKEND_FIELD_NUMBER: builtins.int
+    MESSAGE_FIELD_NUMBER: builtins.int
+    status: global___TestCacheConnectionStatus.ValueType
+    backend: builtins.str
+    """Configured backend name (e.g. diskcache/redis/postgres)."""
+    message: builtins.str
+    """Human-readable detail (empty when OK)."""
+    def __init__(
+        self,
+        *,
+        status: global___TestCacheConnectionStatus.ValueType = ...,
+        backend: builtins.str = ...,
+        message: builtins.str = ...,
+    ) -> None: ...
+    def ClearField(self, field_name: typing.Literal["backend", b"backend", "message", b"message", "status", b"status"]) -> None: ...
+
+global___TestCacheConnectionResponse = TestCacheConnectionResponse
+
+@typing.final
+class SsmlDocumentationRequest(google.protobuf.message.Message):
+    """Request for SSML documentation for a specific voice."""
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+    VOICE_ID_FIELD_NUMBER: builtins.int
+    LOCALE_FIELD_NUMBER: builtins.int
+    voice_id: builtins.str
+    """The voice ID to get SSML documentation for."""
+    locale: builtins.str
+    """BCP-47 locale code for the documentation language, e.g. "en", "de"."""
+    def __init__(
+        self,
+        *,
+        voice_id: builtins.str = ...,
+        locale: builtins.str = ...,
+    ) -> None: ...
+    def ClearField(self, field_name: typing.Literal["locale", b"locale", "voice_id", b"voice_id"]) -> None: ...
+
+global___SsmlDocumentationRequest = SsmlDocumentationRequest
+
+@typing.final
+class SsmlDocumentationResponse(google.protobuf.message.Message):
+    """Response containing SSML documentation sections for a voice."""
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+    VOICE_ID_FIELD_NUMBER: builtins.int
+    DOCUMENTATION_FIELD_NUMBER: builtins.int
+    voice_id: builtins.str
+    """The voice ID this documentation belongs to."""
+    @property
+    def documentation(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[TTSTypes_pb2.SsmlDocSection]:
+        """Human-readable documentation sections, one per supported non-internal tag per locale."""
+
+    def __init__(
+        self,
+        *,
+        voice_id: builtins.str = ...,
+        documentation: collections.abc.Iterable[TTSTypes_pb2.SsmlDocSection] | None = ...,
+    ) -> None: ...
+    def ClearField(self, field_name: typing.Literal["documentation", b"documentation", "voice_id", b"voice_id"]) -> None: ...
+
+global___SsmlDocumentationResponse = SsmlDocumentationResponse

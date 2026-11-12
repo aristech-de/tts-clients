@@ -8,7 +8,9 @@ v2.1.3
 """
 
 import builtins
+import collections.abc
 import google.protobuf.descriptor
+import google.protobuf.internal.containers
 import google.protobuf.internal.enum_type_wrapper
 import google.protobuf.message
 import sys
@@ -21,16 +23,82 @@ else:
 
 DESCRIPTOR: google.protobuf.descriptor.FileDescriptor
 
+class _SqrType:
+    ValueType = typing.NewType("ValueType", builtins.int)
+    V: typing_extensions.TypeAlias = ValueType
+
+class _SqrTypeEnumTypeWrapper(google.protobuf.internal.enum_type_wrapper._EnumTypeWrapper[_SqrType.ValueType], builtins.type):
+    DESCRIPTOR: google.protobuf.descriptor.EnumDescriptor
+    UNSET: _SqrType.ValueType  # 0
+    """default value to identify clients that didn't set a value"""
+    NO_SQRS: _SqrType.ValueType  # 1
+    """don't apply synced sqrs"""
+    PRODUCTIVE: _SqrType.ValueType  # 2
+    """apply only productive sqrs"""
+    NON_PRODUCTIVE: _SqrType.ValueType  # 3
+    """apply only non-productive sqrs"""
+    ALL: _SqrType.ValueType  # 4
+    """apply all (latest) sqrs"""
+
+class SqrType(_SqrType, metaclass=_SqrTypeEnumTypeWrapper): ...
+
+UNSET: SqrType.ValueType  # 0
+"""default value to identify clients that didn't set a value"""
+NO_SQRS: SqrType.ValueType  # 1
+"""don't apply synced sqrs"""
+PRODUCTIVE: SqrType.ValueType  # 2
+"""apply only productive sqrs"""
+NON_PRODUCTIVE: SqrType.ValueType  # 3
+"""apply only non-productive sqrs"""
+ALL: SqrType.ValueType  # 4
+"""apply all (latest) sqrs"""
+global___SqrType = SqrType
+
 @typing.final
 class SpeechRequestOption(google.protobuf.message.Message):
     """Further options for a `SpeechRequest`."""
 
     DESCRIPTOR: google.protobuf.descriptor.Descriptor
 
+    @typing.final
+    class NormalizationOptions(google.protobuf.message.Message):
+        """Options to customize the normalization process."""
+
+        DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+        SQR_TYPE_FIELD_NUMBER: builtins.int
+        KEEP_MARKDOWN_FIELD_NUMBER: builtins.int
+        ATTEMPT_SINGLE_PASS_SYNTHESIS_FIELD_NUMBER: builtins.int
+        sqr_type: global___SqrType.ValueType
+        """Which sqrs from the tts-designer should be applied. Replaces sqr_type in SpeechRequestOption
+        takes precedence over sqr_type in SpeechRequestOption
+        """
+        keep_markdown: builtins.bool
+        """Whether to keep markdown syntax in the text or remove it during normalization."""
+        attempt_single_pass_synthesis: builtins.bool
+        """If true, the server will attempt to synthesize the full input in a single pass
+        instead of generating each sentence on its own.
+        Notes:
+        - Only supported by backends that support streaming/single-pass style synthesis.
+        - For long inputs, internal limits may still split text into multiple chunks.
+        """
+        def __init__(
+            self,
+            *,
+            sqr_type: global___SqrType.ValueType = ...,
+            keep_markdown: builtins.bool = ...,
+            attempt_single_pass_synthesis: builtins.bool | None = ...,
+        ) -> None: ...
+        def HasField(self, field_name: typing.Literal["_attempt_single_pass_synthesis", b"_attempt_single_pass_synthesis", "attempt_single_pass_synthesis", b"attempt_single_pass_synthesis"]) -> builtins.bool: ...
+        def ClearField(self, field_name: typing.Literal["_attempt_single_pass_synthesis", b"_attempt_single_pass_synthesis", "attempt_single_pass_synthesis", b"attempt_single_pass_synthesis", "keep_markdown", b"keep_markdown", "sqr_type", b"sqr_type"]) -> None: ...
+        def WhichOneof(self, oneof_group: typing.Literal["_attempt_single_pass_synthesis", b"_attempt_single_pass_synthesis"]) -> typing.Literal["attempt_single_pass_synthesis"] | None: ...
+
     VOICE_ID_FIELD_NUMBER: builtins.int
     AUDIO_FIELD_NUMBER: builtins.int
     NORMALIZE_FIELD_NUMBER: builtins.int
-    CACHE_FIELD_NUMBER: builtins.int
+    SQR_TYPE_FIELD_NUMBER: builtins.int
+    NORMALIZATION_OPTIONS_FIELD_NUMBER: builtins.int
+    DISABLE_CACHE_FIELD_NUMBER: builtins.int
     voice_id: builtins.str
     """The `voiceId` from `Voice` to use as wrapping voice to synthesize text.
     Note: The `voiceId` can also be swapped within the text by using ssml's
@@ -40,13 +108,17 @@ class SpeechRequestOption(google.protobuf.message.Message):
     """If the text should be normalized before being transformed into audio or
     not.
     """
-    cache: builtins.bool
-    """If the server should fetch audio from cache or save the audio to cache if
-    enabled.
-    """
+    sqr_type: global___SqrType.ValueType
+    """Which sqrs from the designer should be applied. Deprecated, use sqr_type in NormalizationOptions instead"""
+    disable_cache: builtins.bool
+    """If true, disable cache usage for this request (don't read/write cache)."""
     @property
     def audio(self) -> global___SpeechAudioFormat:
         """Further options that specify the generated audio."""
+
+    @property
+    def normalization_options(self) -> global___SpeechRequestOption.NormalizationOptions:
+        """Options to customize the normalization process."""
 
     def __init__(
         self,
@@ -54,10 +126,12 @@ class SpeechRequestOption(google.protobuf.message.Message):
         voice_id: builtins.str = ...,
         audio: global___SpeechAudioFormat | None = ...,
         normalize: builtins.bool = ...,
-        cache: builtins.bool = ...,
+        sqr_type: global___SqrType.ValueType = ...,
+        normalization_options: global___SpeechRequestOption.NormalizationOptions | None = ...,
+        disable_cache: builtins.bool = ...,
     ) -> None: ...
-    def HasField(self, field_name: typing.Literal["audio", b"audio"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing.Literal["audio", b"audio", "cache", b"cache", "normalize", b"normalize", "voice_id", b"voice_id"]) -> None: ...
+    def HasField(self, field_name: typing.Literal["audio", b"audio", "normalization_options", b"normalization_options"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing.Literal["audio", b"audio", "disable_cache", b"disable_cache", "normalization_options", b"normalization_options", "normalize", b"normalize", "sqr_type", b"sqr_type", "voice_id", b"voice_id"]) -> None: ...
 
 global___SpeechRequestOption = SpeechRequestOption
 
@@ -132,6 +206,7 @@ class SpeechAudioFormat(google.protobuf.message.Message):
     SAMPLERATE_FIELD_NUMBER: builtins.int
     BIT_DEPTH_FIELD_NUMBER: builtins.int
     CHANNELS_FIELD_NUMBER: builtins.int
+    BITRATE_FIELD_NUMBER: builtins.int
     container: global___SpeechAudioFormat.Container.ValueType
     """The container to use."""
     codec: global___SpeechAudioFormat.Codec.ValueType
@@ -142,6 +217,8 @@ class SpeechAudioFormat(google.protobuf.message.Message):
     """Bit depth of the audio (e.g. 16)."""
     channels: builtins.int
     """The channels count of the audio."""
+    bitrate: builtins.int
+    """The bitrate of the audio (only for compressed formats like mp3, ogg)."""
     def __init__(
         self,
         *,
@@ -150,8 +227,9 @@ class SpeechAudioFormat(google.protobuf.message.Message):
         samplerate: builtins.int = ...,
         bit_depth: builtins.int = ...,
         channels: builtins.int = ...,
+        bitrate: builtins.int = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing.Literal["bit_depth", b"bit_depth", "channels", b"channels", "codec", b"codec", "container", b"container", "samplerate", b"samplerate"]) -> None: ...
+    def ClearField(self, field_name: typing.Literal["bit_depth", b"bit_depth", "bitrate", b"bitrate", "channels", b"channels", "codec", b"codec", "container", b"container", "samplerate", b"samplerate"]) -> None: ...
 
 global___SpeechAudioFormat = SpeechAudioFormat
 
@@ -195,15 +273,25 @@ class VoiceDefaults(google.protobuf.message.Message):
 
     RATE_FIELD_NUMBER: builtins.int
     PITCH_FIELD_NUMBER: builtins.int
+    DEFAULT_VOICE_FIELD_NUMBER: builtins.int
+    VOLUME_FIELD_NUMBER: builtins.int
+    ATTEMPT_SINGLE_PASS_SYNTHESIS_DEFAULT_FIELD_NUMBER: builtins.int
     rate: builtins.str
     pitch: builtins.str
+    default_voice: builtins.bool
+    volume: builtins.str
+    attempt_single_pass_synthesis_default: builtins.bool
+    """Whether single-pass synthesis is enabled by default for this voice when the request does not override it."""
     def __init__(
         self,
         *,
         rate: builtins.str = ...,
         pitch: builtins.str = ...,
+        default_voice: builtins.bool = ...,
+        volume: builtins.str = ...,
+        attempt_single_pass_synthesis_default: builtins.bool = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing.Literal["pitch", b"pitch", "rate", b"rate"]) -> None: ...
+    def ClearField(self, field_name: typing.Literal["attempt_single_pass_synthesis_default", b"attempt_single_pass_synthesis_default", "default_voice", b"default_voice", "pitch", b"pitch", "rate", b"rate", "volume", b"volume"]) -> None: ...
 
 global___VoiceDefaults = VoiceDefaults
 
@@ -238,6 +326,8 @@ class Voice(google.protobuf.message.Message):
     PORTS_AVAILABLE_FIELD_NUMBER: builtins.int
     DEBUG_AVAILABLE_FIELD_NUMBER: builtins.int
     DEFAULTS_FIELD_NUMBER: builtins.int
+    SUPPORTS_SINGLE_PASS_SYNTHESIS_FIELD_NUMBER: builtins.int
+    SSML_PROFILE_FIELD_NUMBER: builtins.int
     name: builtins.str
     """[Output-only] The voice name."""
     gender: global___Voice.Gender.ValueType
@@ -254,6 +344,8 @@ class Voice(google.protobuf.message.Message):
     """available ports for the voice as configured in the license;"""
     debug_available: builtins.bool
     """whether debug is available for the voice (only with developer license)"""
+    supports_single_pass_synthesis: builtins.bool
+    """Whether this voice supports request-level single-pass synthesis mode."""
     @property
     def audio(self) -> global___SpeechAudioFormat:
         """[Output-only] The audio type of the voice."""
@@ -265,6 +357,10 @@ class Voice(google.protobuf.message.Message):
     @property
     def defaults(self) -> global___VoiceDefaults:
         """default config values"""
+
+    @property
+    def ssml_profile(self) -> global___VoiceSsmlProfile:
+        """SSML capabilities and documentation for this voice."""
 
     def __init__(
         self,
@@ -279,8 +375,90 @@ class Voice(google.protobuf.message.Message):
         ports_available: builtins.int = ...,
         debug_available: builtins.bool = ...,
         defaults: global___VoiceDefaults | None = ...,
+        supports_single_pass_synthesis: builtins.bool = ...,
+        ssml_profile: global___VoiceSsmlProfile | None = ...,
     ) -> None: ...
-    def HasField(self, field_name: typing.Literal["audio", b"audio", "defaults", b"defaults", "locale", b"locale"]) -> builtins.bool: ...
-    def ClearField(self, field_name: typing.Literal["audio", b"audio", "debug_available", b"debug_available", "defaults", b"defaults", "gender", b"gender", "locale", b"locale", "name", b"name", "ports_available", b"ports_available", "uuid", b"uuid", "version", b"version", "voice_id", b"voice_id"]) -> None: ...
+    def HasField(self, field_name: typing.Literal["audio", b"audio", "defaults", b"defaults", "locale", b"locale", "ssml_profile", b"ssml_profile"]) -> builtins.bool: ...
+    def ClearField(self, field_name: typing.Literal["audio", b"audio", "debug_available", b"debug_available", "defaults", b"defaults", "gender", b"gender", "locale", b"locale", "name", b"name", "ports_available", b"ports_available", "ssml_profile", b"ssml_profile", "supports_single_pass_synthesis", b"supports_single_pass_synthesis", "uuid", b"uuid", "version", b"version", "voice_id", b"voice_id"]) -> None: ...
 
 global___Voice = Voice
+
+@typing.final
+class SsmlTagInfo(google.protobuf.message.Message):
+    """Describes a single supported SSML tag and its allowed attributes."""
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+    TAG_FIELD_NUMBER: builtins.int
+    ALLOWED_ATTRIBUTES_FIELD_NUMBER: builtins.int
+    SELF_CLOSING_FIELD_NUMBER: builtins.int
+    tag: builtins.str
+    """The tag name, e.g. "break", "prosody", "phoneme"."""
+    self_closing: builtins.bool
+    """Whether this is a self-closing tag (e.g. <break/>, <audio/>)."""
+    @property
+    def allowed_attributes(self) -> google.protobuf.internal.containers.RepeatedScalarFieldContainer[builtins.str]:
+        """The list of allowed attribute names for this tag."""
+
+    def __init__(
+        self,
+        *,
+        tag: builtins.str = ...,
+        allowed_attributes: collections.abc.Iterable[builtins.str] | None = ...,
+        self_closing: builtins.bool = ...,
+    ) -> None: ...
+    def ClearField(self, field_name: typing.Literal["allowed_attributes", b"allowed_attributes", "self_closing", b"self_closing", "tag", b"tag"]) -> None: ...
+
+global___SsmlTagInfo = SsmlTagInfo
+
+@typing.final
+class VoiceSsmlProfile(google.protobuf.message.Message):
+    """Per-voice SSML capabilities (lightweight, included in GetVoiceList)."""
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+    SUPPORTED_TAGS_FIELD_NUMBER: builtins.int
+    @property
+    def supported_tags(self) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[global___SsmlTagInfo]:
+        """The SSML tags this voice supports, with attribute constraints."""
+
+    def __init__(
+        self,
+        *,
+        supported_tags: collections.abc.Iterable[global___SsmlTagInfo] | None = ...,
+    ) -> None: ...
+    def ClearField(self, field_name: typing.Literal["supported_tags", b"supported_tags"]) -> None: ...
+
+global___VoiceSsmlProfile = VoiceSsmlProfile
+
+@typing.final
+class SsmlDocSection(google.protobuf.message.Message):
+    """A human-readable documentation section for a single SSML tag."""
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor
+
+    TAG_FIELD_NUMBER: builtins.int
+    TITLE_FIELD_NUMBER: builtins.int
+    MARKDOWN_FIELD_NUMBER: builtins.int
+    EXAMPLES_FIELD_NUMBER: builtins.int
+    tag: builtins.str
+    """The tag this documentation refers to, e.g. "break"."""
+    title: builtins.str
+    """Display title, e.g. "Pauses with <break>"."""
+    markdown: builtins.str
+    """Markdown-formatted documentation body."""
+    @property
+    def examples(self) -> google.protobuf.internal.containers.RepeatedScalarFieldContainer[builtins.str]:
+        """Example SSML snippets demonstrating usage."""
+
+    def __init__(
+        self,
+        *,
+        tag: builtins.str = ...,
+        title: builtins.str = ...,
+        markdown: builtins.str = ...,
+        examples: collections.abc.Iterable[builtins.str] | None = ...,
+    ) -> None: ...
+    def ClearField(self, field_name: typing.Literal["examples", b"examples", "markdown", b"markdown", "tag", b"tag", "title", b"title"]) -> None: ...
+
+global___SsmlDocSection = SsmlDocSection
