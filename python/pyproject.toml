@@ -4,13 +4,13 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "aristech-tts-client"
-version = "2.0.0"
+version = "2.0.1"
 description = "A Python client library for the Aristech Text-to-Speech API"
 authors = [{ name = "Martin Mende", email = "speech@aristech.de" }]
 dependencies = [
-  "grpcio>=1.71.0,<2.0.0",
-  # grpcio-tools still requires protobuf < 6.0.0
-  "protobuf>=5.26.1,<7.0.0",
+  # Lower bounds must match GRPC_GENERATED_VERSION and the "Protobuf Python Version" of the checked-in gencode
+  "grpcio>=1.75.0,<2.0.0",
+  "protobuf>=6.31.1,<8.0.0",
 ]
 readme = "README.md"
 classifiers = [
@@ -23,7 +23,7 @@ license = { text = "MIT License" }
 [project.optional-dependencies]
 dev = [
   "grpcio-tools>=1.71.0,<2.0.0",
-  "mypy-protobuf>=3.6.0,<4.0.0",
+  "mypy-protobuf>=3.6.0,<6.0.0",
   "python-dotenv>=1.1.0,<2.0.0",
 ]
 
