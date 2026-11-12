@@ -1,5 +1,14 @@
 # Changelog
 
+## Rust v2.2.1 - 2026-11-12
+- Updated dependencies.
+## NodeJS v2.1.1 - 2026-11-12
+- Updated dependencies. `@grpc/grpc-js` 1.14.7 fixes four high-severity security advisories.
+- The package is now built with TypeScript 7.
+## Python v2.0.1 - 2026-11-12
+- Fixed the minimum versions of `protobuf` (now 6.31.1) and `grpcio` (now 1.75.0). The generated code needs them, so installs with older versions failed on import.
+- Allow protobuf 7.
+
 ## Rust v2.2.0 - 2026-05-29
 - Updated dependencies.
 - `get_client` now walks through potential errors to provide more helpful error messages when the client cannot be created.
