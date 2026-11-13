@@ -70,6 +70,24 @@ SECRET=your-secret
 cargo run --example file
 ```
 
+### Connect timeout
+
+By default, connecting waits as long as the operating system does. For an unreachable host that is typically about two minutes, and for a TLS server that accepts the connection but never answers the handshake it is indefinitely. To give up earlier, use `get_client_with_options` with a connect timeout:
+
+```rust
+use aristech_tts_client::{get_client_with_options, ConnectOptions, ConnectTimeoutError, TlsOptions};
+use std::time::Duration;
+
+let options = ConnectOptions::new().connect_timeout(Duration::from_secs(5));
+match get_client_with_options("https://tts.example.com:8424".to_string(), Some(TlsOptions::default()), options).await {
+    Ok(client) => { /* use the client */ }
+    Err(e) if e.downcast_ref::<ConnectTimeoutError>().is_some() => { /* the server did not answer in time */ }
+    Err(e) => return Err(e),
+}
+```
+
+The timeout only applies to establishing the connection, not to requests on an established connection.
+
 ## Build
 
 To build the library, run:
